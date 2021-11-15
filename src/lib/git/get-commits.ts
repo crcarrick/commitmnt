@@ -1,14 +1,9 @@
 import { compareAsc, parseISO } from 'date-fns';
 
-import { exec } from '../utils/exec';
+import { git, LogArgs } from '../utils/git';
 
-export async function getCommits(author: string, after?: string) {
-  const afterArg = after ? `--after="${after}"` : '';
-
-  // eslint-disable-next-line no-useless-escape
-  const command = `git log --author="${author}" ${afterArg} --pretty=format:"\"%aI\""`;
-
-  const output = await exec(command);
+export async function getCommits({ after, author }: LogArgs) {
+  const output = await git.log({ after, author, pretty: 'format:""%aI""' });
 
   const commits = output.stdout
     .split('\n')

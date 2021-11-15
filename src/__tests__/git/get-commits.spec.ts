@@ -18,27 +18,27 @@ describe('getCommits', () => {
   });
 
   it('creates a log command', async () => {
-    await getCommits(author);
+    await getCommits({ author });
 
     expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining('git log'));
   });
 
   it('selects a specific author', async () => {
-    await getCommits(author);
+    await getCommits({ author });
 
     expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining(`--author="${author}"`));
   });
 
   describe('`after` param', () => {
     it('selects all commits', async () => {
-      const result = await getCommits(author);
+      const result = await getCommits({ author });
 
       expect(mockedExec).not.toHaveBeenCalledWith(expect.stringContaining('--after'));
       expect(result.length).toBe(commits.length);
     });
 
     it('selects commits after a specified date', async () => {
-      const result = await getCommits(author, commits[0]);
+      const result = await getCommits({ author, after: commits[0] });
 
       expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining(`--after="${commits[0]}"`));
       expect(result.length).toStrictEqual(commits.length - 1);

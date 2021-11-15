@@ -2,13 +2,14 @@ import { mocked } from 'ts-jest/utils';
 
 import { doCommit } from '../../lib/git/do-commit';
 import { doCommits } from '../../lib/git/do-commits';
-import { exec } from '../../lib/utils/exec';
+import { git } from '../../lib/utils/git';
 
 jest.mock('../../lib/git/do-commit');
 jest.mock('../../lib/utils/exec');
+jest.mock('../../lib/utils/git');
 
 const mockedDoCommit = mocked(doCommit);
-const mockedExec = mocked(exec);
+const mockedGit = mocked(git);
 
 describe('doCommits', () => {
   const commits = [
@@ -19,31 +20,31 @@ describe('doCommits', () => {
   ];
 
   afterEach(() => {
-    mockedExec.mockReset();
+    mockedGit.push.mockReset();
   });
 
   it('calls doCommit for every commit in the list', async () => {
-    await doCommits(commits, 400, 'foo');
+    await doCommits({ commits, max: 400, branch: 'foo' });
 
     expect(mockedDoCommit).toHaveBeenCalledTimes(commits.length);
   });
 
   it('creates the correct number of commits', async () => {
-    const result = await doCommits(commits, 400, 'foo');
+    const result = await doCommits({ commits, max: 400, branch: 'foo' });
 
     expect(result).toBe(commits.length);
   });
 
   it('pushes to the correct branch', async () => {
-    await doCommits(commits, 400, 'foo');
+    await doCommits({ commits, max: 400, branch: 'foo' });
 
-    expect(mockedExec).toHaveBeenCalledWith('git push -u origin foo');
-    expect(mockedExec).toHaveBeenCalledTimes(1);
+    expect(git.push).toHaveBeenCalledWith(expect.objectContaining({ upstream: 'origin foo' }));
+    expect(git.push).toHaveBeenCalledTimes(1);
   });
 
   it('pushes when it reaches the max commits, then continues', async () => {
-    await doCommits(commits, 2, 'foo');
+    await doCommits({ commits, max: 2, branch: 'foo' });
 
-    expect(mockedExec).toHaveBeenCalledTimes(2);
+    expect(git.push).toHaveBeenCalledTimes(2);
   });
 });

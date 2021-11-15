@@ -3,8 +3,10 @@ import { mocked } from 'ts-jest/utils';
 
 import { doCommit } from '../../lib/git/do-commit';
 import { exec } from '../../lib/utils/exec';
+import { git } from '../../lib/utils/git';
 
 jest.mock('../../lib/utils/exec');
+jest.mock('../../lib/utils/git');
 
 const mockedExec = mocked(exec);
 
@@ -16,25 +18,29 @@ describe('doCommit', () => {
   const filename = 'foo.txt';
 
   it('changes a dummy file in order to have something to commit', async () => {
-    await doCommit(commit, filename);
+    await doCommit({ commit, filename });
 
-    expect(mockedExec).toHaveBeenCalledWith(expect.stringMatching(/echo.*>.*foo\.txt/));
     expect(mockedExec).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`echo.*>.*${filename}`))
     );
   });
 
   it('git adds the changes to the dummy file', async () => {
-    await doCommit(commit, filename);
+    jest.spyOn(git, 'add');
 
-    expect(mockedExec).toHaveBeenCalledWith(`git add ${filename}`);
+    await doCommit({ commit, filename });
+
+    expect(git.add).toHaveBeenCalledWith(expect.objectContaining({ files: filename }));
   });
 
   it('commits the changes backdated to the commit date', async () => {
     jest.spyOn(datefns, 'format').mockReturnValueOnce(commit);
+    jest.spyOn(git, 'commit');
 
-    await doCommit(commit, filename);
+    await doCommit({ commit, filename });
 
-    expect(mockedExec).toHaveBeenCalledWith(`git commit --date "${commit}" -m "${commit}"`);
+    expect(git.commit).toHaveBeenCalledWith(
+      expect.objectContaining({ date: commit, message: commit })
+    );
   });
 });

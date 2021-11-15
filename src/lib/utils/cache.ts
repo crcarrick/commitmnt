@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import path from 'path';
 
 import fs from 'fs-extra';
-
 export class Cache {
   dir = './.cache';
   paths: Array<string> = [];
