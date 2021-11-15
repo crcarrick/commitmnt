@@ -6,9 +6,9 @@ module.exports = {
   },
   collectCoverageFrom: [
     'src/lib/**/*.{js,jsx,ts,tsx}',
+    '!src/lib/**/index.ts',
     // TODO: re-collect coverage from main
     '!src/lib/main.ts',
-    '!src/lib/utils/*',
     '!**/*.d.ts',
     '!**/node_modules/**',
   ],

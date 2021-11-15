@@ -2,17 +2,17 @@ import process from 'process';
 
 import fs from 'fs-extra';
 
+import { getCommits } from '../git/get-commits';
 import { Deps } from '../utils/ioc';
 
-import { gitLog } from './git-log';
-
-export async function readRepository({ config }: Deps, pathToRepo: string) {
+export async function readRepository(pathToRepo: string, { config }: Deps) {
   const repo = config.repositories.find(({ path }) => path === pathToRepo);
 
-  if (!repo || !fs.existsSync(pathToRepo))
+  if (!repo || !fs.existsSync(pathToRepo)) {
     throw new Error(`Couldn't find repository at path ${pathToRepo}`);
+  }
 
   process.chdir(pathToRepo);
 
-  return gitLog(repo);
+  return getCommits('');
 }

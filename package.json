@@ -7,12 +7,20 @@
   "module": "dist/module/index.js",
   "repository": "https://github.com/crcarrick/cmytment",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "github",
+    "gitlab",
+    "bitbucket",
+    "commit",
+    "repository",
+    "copy"
+  ],
   "scripts": {
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
   "engines": {
@@ -27,6 +35,7 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.0.2",
+    "@types/lodash": "^4.14.176",
     "@types/mock-fs": "^4.13.1",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
@@ -43,7 +52,6 @@
     "npm-run-all": "^4.1.5",
     "open-cli": "^6.0.1",
     "prettier": "^2.1.1",
-    "reflect-metadata": "^0.1.13",
     "standard-version": "^9.0.0",
     "ts-jest": "^27.0.7",
     "ts-node": "^9.0.0",

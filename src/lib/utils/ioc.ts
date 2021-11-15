@@ -1,5 +1,5 @@
-import { Cache } from '../cache';
-import { Config } from '../config';
+import { Config } from '../types';
+import { Cache } from '../utils/cache';
 
 type SpreadArgs = Array<unknown>;
 

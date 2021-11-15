@@ -1,13 +1,16 @@
-/* eslint-disable import/order */
+/*
+ * mock-fs needs to come before fs here so that the fs api
+ * will be mocked before fs-extra wraps it
+ */
 
-// mock-fs needs to come before fs here so that the fs api
-// will be mocked before fs-extra wraps it
+// eslint-disable-next-line import/order
 import mockFilesystem from 'mock-fs';
-import fs from 'fs-extra';
 
-import { Cache } from './cache';
+import { existsSync } from 'fs';
+import fs from 'fs/promises';
 
-// these are kind like half unit half "integration" tests i guess
+import { Cache } from '../../lib/utils/cache';
+
 describe('Cache', () => {
   beforeEach(async () => {
     mockFilesystem({});
@@ -20,7 +23,7 @@ describe('Cache', () => {
   it(`creates ./cache directory if it doesn't exist`, () => {
     new Cache();
 
-    expect(fs.existsSync('./.cache')).toBe(true);
+    expect(existsSync('./.cache')).toBe(true);
   });
 
   it(`creates custom directory if it doesn't exist`, () => {
@@ -28,7 +31,7 @@ describe('Cache', () => {
 
     new Cache(dir);
 
-    expect(fs.existsSync(dir)).toBe(true);
+    expect(existsSync(dir)).toBe(true);
   });
 
   it('sets a value in the cache for a key', async () => {
@@ -41,8 +44,10 @@ describe('Cache', () => {
 
     const file = cache.getPath(key);
 
-    expect(fs.existsSync(file)).toBe(true);
-    expect(fs.readJsonSync(file)).toStrictEqual(val);
+    const result = await fs.readFile(file, 'utf8');
+
+    expect(existsSync(file)).toBe(true);
+    expect(JSON.parse(result)).toStrictEqual(val);
   });
 
   it('gets a value from the cache for a key', async () => {

@@ -5,7 +5,7 @@ import fs from 'fs-extra';
 
 export class Cache {
   dir = './.cache';
-  paths: string[] = [];
+  paths: Array<string> = [];
 
   constructor(dir?: string) {
     if (dir) this.dir = dir;
@@ -36,10 +36,4 @@ export class Cache {
   private hash(key: string) {
     return crypto.createHash('md5').update(key).digest('hex');
   }
-}
-
-export function createCacheInjector(cache: Cache) {
-  return function injectCache<T extends Array<unknown>, K>(fn: (cache: Cache, ...args: T) => K) {
-    return (...args: T) => fn(cache, ...args);
-  };
 }
