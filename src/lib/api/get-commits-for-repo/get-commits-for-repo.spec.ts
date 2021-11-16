@@ -1,10 +1,8 @@
-import process from 'process';
-
 import fs from 'fs-extra';
 import ora from 'ora';
 import { mocked } from 'ts-jest/utils';
 
-import { Deps, Repository } from '../../types';
+import { Config, Deps, Repository } from '../../types';
 import { Cache } from '../../utils/cache';
 import { getCommits } from '../../utils/get-commits';
 
@@ -20,18 +18,16 @@ const mocks = {
 };
 
 describe('getCommitsForRepo', () => {
-  const config = {
-    branch: '',
-    remote: '',
+  const config: Config = {
+    branch: 'main',
     repositories: [],
+    rootDir: '/foo/bar',
   };
   const cache = new Cache();
-  const rootDir = '/foo/bar';
 
   const deps: Deps = {
     config,
     cache,
-    rootDir,
     spinner: ora(),
   };
   const repo: Repository = {

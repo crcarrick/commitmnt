@@ -1,16 +1,4 @@
 {
   "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "node",
-      "name": "vscode-jest-tests",
-      "request": "launch",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "yarn",
-      "args": ["test", "--runInBand", "--watchAll=false"]
-    }
-  ]
+  "configurations": []
 }

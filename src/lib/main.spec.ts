@@ -25,7 +25,7 @@ afterEach(() => {
 });
 
 describe('cmytment', () => {
-  const config = { branch: 'main', repositories: [] };
+  const config = { branch: 'main', repositories: [], rootDir: '' };
 
   it('creates a cache', async () => {
     await cmytment(config);
@@ -40,7 +40,6 @@ describe('cmytment', () => {
       expect.objectContaining({
         cache: expect.any(Cache),
         config: expect.objectContaining(config),
-        rootDir: expect.any(String),
       })
     );
   });
@@ -68,7 +67,6 @@ describe('initCmytment', () => {
       expect.objectContaining({
         cache: expect.any(Cache),
         config: expect.objectContaining(config),
-        rootDir: expect.any(String),
       })
     );
   });

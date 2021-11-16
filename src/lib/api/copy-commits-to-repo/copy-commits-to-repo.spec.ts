@@ -1,8 +1,6 @@
-import process from 'process';
-
 import ora from 'ora';
 
-import { Deps } from '../../types';
+import { Config, Deps } from '../../types';
 import { Cache } from '../../utils/cache';
 import { doCommits } from '../../utils/do-commits';
 
@@ -14,18 +12,16 @@ jest.mock('../../utils/do-commits');
 
 describe('copyCommitsToRepo', () => {
   const dates = ['foo', 'bar'];
-  const config = {
+  const config: Config = {
     branch: '',
-    remote: '',
     repositories: [],
+    rootDir: '/foo/bar',
   };
   const cache = new Cache();
-  const rootDir = '/foo/bar';
 
   const deps: Deps = {
     config,
     cache,
-    rootDir,
     spinner: ora(),
   };
 
@@ -36,7 +32,7 @@ describe('copyCommitsToRepo', () => {
   it('changes directory to the root dir', async () => {
     await copyCommitsToRepo(deps, dates);
 
-    expect(process.chdir).toHaveBeenCalledWith(rootDir);
+    expect(process.chdir).toHaveBeenCalledWith(config.rootDir);
   });
 
   it('calls doCommits', async () => {

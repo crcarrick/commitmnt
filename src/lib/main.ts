@@ -12,6 +12,7 @@ import { Cache, createInjector } from './utils';
 const defaultConfig: Config = {
   branch: 'main',
   repositories: [],
+  rootDir: process.cwd(),
 };
 
 /**
@@ -35,7 +36,6 @@ export async function initCmytment(config: Pick<Config, 'branch'>) {
       ...defaultConfig,
       ...config,
     },
-    rootDir: process.cwd(),
     spinner: ora(),
   });
 
@@ -64,7 +64,6 @@ export async function cmytment(config: Config) {
       ...defaultConfig,
       ...config,
     },
-    rootDir: process.cwd(),
     spinner: ora(),
   });
 

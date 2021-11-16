@@ -13,7 +13,7 @@ export async function getCommitsAndCopy(deps: Deps) {
   spinner.start('Reading repositories...');
 
   const copies: Array<Promise<number>> = config.repositories.map((repo) => copyRepo(deps, repo));
-  const total = (await Promise.all(copies)).reduce((a, b) => a + b);
+  const total = (await Promise.all(copies)).reduce((a, b) => a + b, 0);
 
   spinner.succeed(`Success!  Wrote commits to local repository... (${total})`);
 }

@@ -25,14 +25,13 @@ describe('copyRepo', () => {
   const config: Config = {
     branch: 'main',
     repositories: [repo],
+    rootDir: '/foo/bar',
   };
   const cache = mocks.cache;
-  const rootDir = '/foo/bar';
 
   const deps: Deps = {
     config,
     cache,
-    rootDir,
     spinner: ora(),
   };
 

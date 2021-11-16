@@ -24,11 +24,14 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d dist/docs",
     "prepare-release": "run-s reset-hard test:coverage doc:html version doc:publish",
     "reset-hard": "git clean -dfx && git reset --hard && yarn",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "run-p test:*",
+    "test:unit": "jest --projects src/lib",
+    "test:int": "jest --projects src/int",
+    "test:unit:coverage": "jest --projects src/lib --coverage",
     "version": "standard-version",
     "watch:build": "tsc -p tsconfig.json --watch",
-    "watch:test": "jest --watch"
+    "watch:test:unit": "jest --projects src/lib --watch",
+    "watch:test:int": "jest --projects src/int --watch"
   },
   "engines": {
     "node": ">=14"
@@ -48,6 +51,7 @@
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
+    "chalk": "^4.1.2",
     "codecov": "^3.5.0",
     "eslint": "^7.8.0",
     "eslint-config-prettier": "^6.11.0",

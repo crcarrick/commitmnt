@@ -28,15 +28,14 @@ describe('getCommitsAndCopy', () => {
   const config: Config = {
     branch: 'main',
     repositories,
+    rootDir: '/foo/bar',
   };
   const cache = new Cache();
-  const rootDir = '/foo/bar';
   const spinner = ora();
 
   const deps: Deps = {
     config,
     cache,
-    rootDir,
     spinner,
   };
 

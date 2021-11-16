@@ -7,13 +7,13 @@ import { Cache } from './utils/cache';
 export interface Config {
   branch: string;
   repositories: Array<Pick<Repository, 'author' | 'branch' | 'path'>>;
+  rootDir: string;
 }
 
 /** @internal */
 export interface Deps {
   cache: Cache;
   config: Config;
-  rootDir: string;
   spinner: Ora;
 }
 

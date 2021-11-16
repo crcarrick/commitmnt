@@ -5,6 +5,7 @@ dist
 node_modules
 test
 src/**.js
+src/int/sandbox
 coverage
 *.log
 package-lock.json

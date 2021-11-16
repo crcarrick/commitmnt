@@ -17,8 +17,6 @@ function createExecSpy(callbackWithError = false) {
           | ((error: cp.ExecException | null, stdout: string, stderr: string) => void)
           | undefined
       ): cp.ChildProcess => {
-        console.log(callbackWithError);
-
         if (callback) callback(callbackWithError ? new Error() : null, '', '');
 
         return new cp.ChildProcess();

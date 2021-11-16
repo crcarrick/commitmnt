@@ -1,5 +1,3 @@
-import process from 'process';
-
 import fs from 'fs-extra';
 
 import { Deps, Repository } from '../../types';
