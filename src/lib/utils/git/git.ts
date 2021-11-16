@@ -40,6 +40,7 @@ export async function commit({ date, message }: { date?: string; message: string
  * @param author the --author arg
  * @param before the --before arg
  * @param pretty the --pretty arg
+ * @param misc any misc text to append to the command
  * @returns the output of the executed command
  *
  * @category Git Wrapper
@@ -50,14 +51,26 @@ export async function log(logArgs?: {
   before?: string;
   pretty?: string;
 }) {
-  let command = `git log `;
+  let command = 'git log ';
 
-  if (logArgs?.after) command += `--after="${logArgs?.after}" `;
-  if (logArgs?.author) command += `--author="${logArgs?.author}" `;
-  if (logArgs?.before) command += `--before="${logArgs?.before}" `;
-  if (logArgs?.pretty) command += `--pretty=${logArgs?.pretty}`;
+  if (logArgs?.after) command += `--after="${logArgs.after}" `;
+  if (logArgs?.author) command += `--author="${logArgs.author}" `;
+  if (logArgs?.before) command += `--before="${logArgs.before}" `;
+  if (logArgs?.pretty) command += `--pretty=${logArgs.pretty} `;
 
   return exec(command.trim());
+}
+
+/**
+ * Runs `git` + whatever you want
+ *
+ * @param command the command to run
+ * @returns the output of the executed command
+ *
+ * @category Git Wrapper
+ */
+export async function misc(command: string) {
+  return exec(`git ${command}`);
 }
 
 /**
@@ -69,7 +82,7 @@ export async function log(logArgs?: {
  * @category Git Wrapper
  */
 export async function push(pushArgs?: { upstream?: string }) {
-  let command = `git push `;
+  let command = 'git push ';
 
   if (pushArgs?.upstream) command += `-u ${pushArgs.upstream}`;
 

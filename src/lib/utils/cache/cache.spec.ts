@@ -1,18 +1,12 @@
-/*
- * mock-fs needs to come before fs here so that the fs api
- * will be mocked before fs-extra wraps it
- */
-
 // eslint-disable-next-line import/order
 import mockFilesystem from 'mock-fs';
-
 import { existsSync } from 'fs';
 import fs from 'fs/promises';
 
 import { Cache } from './cache';
 
 describe('Cache', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     mockFilesystem({});
   });
 

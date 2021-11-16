@@ -18,8 +18,8 @@ const MAX_COMMITS_PER_PUSH = 400;
  *
  * @category Public API
  */
-export async function copyCommitsToRepo({ config }: Deps, dates: Array<string>) {
-  process.chdir('./');
+export async function copyCommitsToRepo({ rootDir }: Deps, dates: Array<string>) {
+  process.chdir(rootDir);
 
-  return doCommits({ dates, max: MAX_COMMITS_PER_PUSH, branch: config.branch });
+  return doCommits({ dates, max: MAX_COMMITS_PER_PUSH });
 }

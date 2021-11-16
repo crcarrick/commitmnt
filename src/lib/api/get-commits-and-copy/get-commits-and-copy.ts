@@ -13,7 +13,7 @@ export async function getCommitsAndCopy(deps: Deps) {
 
   let totalCommits = 0;
 
-  spinner.start('Reading repositories...');
+  spinner.text = 'Reading repositories...';
 
   for (const repo of config.repositories) {
     spinner.text = `Reading repositories... (${repo.path})`;
@@ -23,7 +23,10 @@ export async function getCommitsAndCopy(deps: Deps) {
     const total = await copyCommitsToRepo(deps, dates);
 
     totalCommits += total;
-    cache.set<Repository>(repo.path, { ...repo, after: dates[dates.length - 1] });
+
+    if (dates.length) {
+      cache.set<Repository>(repo.path, { ...repo, after: dates[dates.length - 1] });
+    }
   }
 
   spinner.succeed(`Success!  Wrote commits to local repository... (${totalCommits})`);

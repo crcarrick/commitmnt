@@ -6,6 +6,7 @@ import { Cache } from './utils/cache';
 
 export interface Config {
   branch: string;
+  remote: string;
   repositories: Array<Pick<Repository, 'author' | 'branch' | 'path'>>;
 }
 
@@ -13,6 +14,7 @@ export interface Config {
 export interface Deps {
   cache: Cache;
   config: Config;
+  rootDir: string;
   spinner: Ora;
 }
 

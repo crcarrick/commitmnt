@@ -10,7 +10,8 @@ import * as git from '../git';
  * @returns the list of commits
  */
 export async function getCommits({ after, author }: { after?: string; author?: string }) {
-  const output = await git.log({ after, author, pretty: 'format:""%aI""' });
+  // eslint-disable-next-line no-useless-escape
+  const output = await git.log({ after, author, pretty: `format:"\"%aI\""` });
 
   const commits = output.stdout
     .split('\n')

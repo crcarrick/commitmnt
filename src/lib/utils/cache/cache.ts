@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import path from 'path';
+import process from 'process';
 
 import fs from 'fs-extra';
 
@@ -7,7 +8,7 @@ import fs from 'fs-extra';
  * Very simple cache class that uses the filesystem
  */
 export class Cache {
-  dir = './.cache';
+  dir = path.join(process.cwd(), '.cache');
   paths: Array<string> = [];
 
   /**
@@ -15,7 +16,7 @@ export class Cache {
    * @constructor
    */
   constructor(dir?: string) {
-    if (dir) this.dir = dir;
+    if (dir) this.dir = path.join(process.cwd(), dir);
 
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir);
@@ -29,10 +30,14 @@ export class Cache {
    *
    * @param key the cache key to lookup
    * @template R the type of the return value
-   * @returns the value for `key` as json
+   * @returns the value for `key` as json or null if key doesn't exist
    */
-  async get<R>(key: string): Promise<R> {
-    return fs.readJson(this.getPath(key));
+  async get<R>(key: string): Promise<R | void> {
+    const file = this.getPath(key);
+
+    if (!fs.existsSync(file)) return;
+
+    return fs.readJson(this.getPath(key), { throws: false });
   }
 
   /**
@@ -43,11 +48,11 @@ export class Cache {
    * @template R the type of the value
    */
   async set<R>(key: string, val: R) {
-    const filename = this.getPath(key);
+    const file = this.getPath(key);
 
-    this.paths = [...this.paths, filename];
+    this.paths = [...this.paths, file];
 
-    return fs.writeJson(filename, val);
+    return fs.writeJson(file, val);
   }
 
   /**

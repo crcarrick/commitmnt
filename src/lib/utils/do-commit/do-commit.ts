@@ -9,12 +9,14 @@ import * as git from '../git';
  *
  * @param commit the date of the commit
  * @param file the file to change
+ * @returns the short commit sha
  */
 export async function doCommit({ date, file = 'foo.txt' }: { date: string; file?: string }) {
   const formatted = format(parseISO(date), 'yyyy-MM-dd HH:mm:ss');
 
   await exec(`echo "${uuidv4()}" > ${file}`);
-
   await git.add({ files: file });
   await git.commit({ date: formatted, message: formatted });
+
+  return await git.misc('rev-parse --short HEAD');
 }

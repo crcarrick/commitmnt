@@ -3,29 +3,19 @@ import * as git from '../git';
 
 /**
  * Commits a series of changes on specified dates
+ * and pushes them to the remote
  *
  * @param dates the list of dates
  * @param max the maximum number of commits before pushing to github
- * @param branch the git branch to commit to
  * @returns the total number of commits pushed
  */
-export async function doCommits({
-  dates,
-  max,
-  branch,
-}: {
-  dates: Array<string>;
-  max: number;
-  branch: string;
-}) {
-  const upstream = `origin ${branch}`;
-
+export async function doCommits({ dates, max }: { dates: Array<string>; max: number }) {
   let doneCommits = 0;
   let totalCommits = 0;
 
   for (const date of dates) {
     if (doneCommits >= max) {
-      await git.push({ upstream });
+      await git.push();
 
       doneCommits = 0;
     }
@@ -36,7 +26,7 @@ export async function doCommits({
     totalCommits += 1;
   }
 
-  await git.push({ upstream });
+  await git.push();
 
   return totalCommits;
 }
