@@ -10,6 +10,7 @@ import { getCommitsForRepo } from '../get-commits-for-repo';
  * @param repo the repository to copy
  * @returns the number of commits copied
  *
+ * @category Public API
  */
 export async function copyRepo(deps: Deps, repo: Repository) {
   const dates = await getCommitsForRepo(deps, repo);

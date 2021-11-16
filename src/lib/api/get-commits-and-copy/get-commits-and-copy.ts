@@ -2,7 +2,7 @@ import { Deps } from '../../types';
 import { copyRepo } from '../copy-repo';
 
 /**
- * Uses {@link copyRepo} to copy all the repositories from the `config`
+ * Uses {@link copyRepo} to copy all the repositories from the config
  * in parallel
  *
  * @category Public API
