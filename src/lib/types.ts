@@ -1,17 +1,21 @@
+import { Ora } from 'ora';
+
+import { Cache } from './utils/cache';
+
 export interface Config {
-  cachePath?: string;
-  gitBranch?: string;
-  maxCommitsPerPush?: number;
-  repositories: Array<Pick<Repository, 'name' | 'path' | 'identifier'>>;
+  branch: string;
+  repositories: Array<Pick<Repository, 'author' | 'branch' | 'path'>>;
+}
+
+export interface Deps {
+  cache: Cache;
+  config: Config;
+  spinner: Ora;
 }
 
 export interface Repository {
-  name: string;
+  author: string;
+  branch: string;
   path: string;
-  identifier: string;
-  last?: string;
-}
-
-export interface CacheRepository extends Repository {
-  last: string;
+  after?: string;
 }

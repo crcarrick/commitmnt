@@ -1,14 +1,15 @@
-import { git } from '../utils/git';
+import { doCommit } from '../do-commit';
+import { git } from '../git';
 
-import { doCommit } from './do-commit';
-
-type DoCommitsArgs = {
+export async function doCommits({
+  commits,
+  max,
+  branch,
+}: {
   commits: Array<string>;
   max: number;
   branch: string;
-};
-
-export async function doCommits({ commits, max, branch }: DoCommitsArgs) {
+}) {
   const upstream = `origin ${branch}`;
 
   let doneCommits = 0;

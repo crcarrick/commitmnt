@@ -1,21 +1,14 @@
-import { exec } from './exec';
+import { exec } from '../exec';
 
-export type AddArgs = {
-  files: string | Array<string>;
-};
+async function add(addArgs?: { files: string | Array<string> }) {
+  let files = addArgs?.files || '.';
 
-async function add({ files }: AddArgs) {
   if (Array.isArray(files)) files = files.join(' ');
 
   return exec(`git add ${files}`);
 }
 
-export type CommitArgs = {
-  date?: string;
-  message: string;
-};
-
-async function commit({ date, message }: CommitArgs) {
+async function commit({ date, message }: { date?: string; message: string }) {
   let command = `git commit -m "${message}" `;
 
   if (date) command += `--date="${date}"`;
@@ -23,14 +16,12 @@ async function commit({ date, message }: CommitArgs) {
   return exec(command.trim());
 }
 
-export type LogArgs = {
+async function log(logArgs?: {
   after?: string;
   author?: string;
   before?: string;
   pretty?: string;
-};
-
-async function log(logArgs?: LogArgs) {
+}) {
   let command = `git log `;
 
   if (logArgs?.after) command += `--after="${logArgs?.after}" `;
@@ -41,11 +32,7 @@ async function log(logArgs?: LogArgs) {
   return exec(command.trim());
 }
 
-export type PushArgs = {
-  upstream?: string;
-};
-
-async function push(pushArgs?: PushArgs) {
+async function push(pushArgs?: { upstream?: string }) {
   let command = `git push `;
 
   if (pushArgs?.upstream) command += `-u ${pushArgs.upstream}`;

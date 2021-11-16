@@ -1,9 +1,10 @@
 import { mocked } from 'ts-jest/utils';
 
-import { getCommits } from '../../lib/git/get-commits';
-import { exec } from '../../lib/utils/exec';
+import { exec } from '../exec';
 
-jest.mock('../../lib/utils/exec');
+import { getCommits } from './get-commits';
+
+jest.mock('../exec');
 
 const mockedExec = mocked(exec);
 

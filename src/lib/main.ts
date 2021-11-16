@@ -1,33 +1,47 @@
-import { doCommit, doCommits, getCommits } from './git';
+import ora from 'ora';
+
+import { copyCommitsToRepo, getCommitsAndCopy, getCommitsForRepo } from './api';
 import { Config } from './types';
 import { Cache } from './utils/cache';
-// import { createInjector } from './utils/ioc';
-
-type ConfigArg = Pick<Config, 'repositories'>;
+import { createInjector } from './utils/ioc';
 
 const defaultConfig: Config = {
-  gitBranch: 'main',
-  maxCommitsPerPush: 400,
+  branch: 'main',
   repositories: [],
 };
 
-export default function initCmytment(config: ConfigArg) {
-  const merged: Config = { ...defaultConfig, ...config };
+export function initCmytment(config: Pick<Config, 'branch'>) {
+  const cache = new Cache();
 
-  const cache = new Cache(merged.cachePath);
-
-  // const inject = createInjector({
-  //   cache,
-  //   config: {
-  //     ...defaultConfig,
-  //     ...config,
-  //   },
-  // });
+  const inject = createInjector({
+    cache,
+    config: {
+      ...defaultConfig,
+      config,
+    },
+    spinner: ora(),
+  });
 
   return {
     cache,
-    doCommit,
-    doCommits,
-    getCommits,
+    copyCommitsToRepo: inject(copyCommitsToRepo),
+    getCommitsForRepo: inject(getCommitsForRepo),
   };
+}
+
+export default async function cmytment(config: Pick<Config, 'branch' | 'repositories'>) {
+  const cache = new Cache();
+
+  const inject = createInjector({
+    cache,
+    config: {
+      ...defaultConfig,
+      config,
+    },
+    spinner: ora(),
+  });
+
+  const main = inject(getCommitsAndCopy);
+
+  await main();
 }

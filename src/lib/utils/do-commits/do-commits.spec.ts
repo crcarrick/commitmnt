@@ -1,12 +1,13 @@
 import { mocked } from 'ts-jest/utils';
 
-import { doCommit } from '../../lib/git/do-commit';
-import { doCommits } from '../../lib/git/do-commits';
-import { git } from '../../lib/utils/git';
+import { doCommit } from '../do-commit';
+import { git } from '../git';
 
-jest.mock('../../lib/git/do-commit');
-jest.mock('../../lib/utils/exec');
-jest.mock('../../lib/utils/git');
+import { doCommits } from './do-commits';
+
+jest.mock('../do-commit');
+jest.mock('../exec');
+jest.mock('../git');
 
 const mockedDoCommit = mocked(doCommit);
 const mockedGit = mocked(git);

@@ -1,9 +1,10 @@
 import { mocked } from 'ts-jest/utils';
 
-import { exec } from '../../lib/utils/exec';
-import { git } from '../../lib/utils/git';
+import { exec } from '../exec';
 
-jest.mock('../../lib/utils/exec');
+import { git } from './git';
+
+jest.mock('../exec');
 
 const mockedExec = mocked(exec);
 
@@ -13,6 +14,12 @@ describe('git', () => {
 
     beforeEach(() => {
       mockedExec.mockReset();
+    });
+
+    it('adds everything by default', async () => {
+      await git.add();
+
+      expect(mockedExec).toHaveBeenCalledWith('git add .');
     });
 
     it('adds a string of files', async () => {

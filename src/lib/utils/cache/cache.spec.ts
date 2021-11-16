@@ -9,7 +9,7 @@ import mockFilesystem from 'mock-fs';
 import { existsSync } from 'fs';
 import fs from 'fs/promises';
 
-import { Cache } from '../../lib/utils/cache';
+import { Cache } from './cache';
 
 describe('Cache', () => {
   beforeEach(async () => {

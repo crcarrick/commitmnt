@@ -20,7 +20,7 @@ export class Cache {
     return fs.readJson(this.getPath(key));
   }
 
-  async set(key: string, val: unknown) {
+  async set<R>(key: string, val: R) {
     const filename = this.getPath(key);
 
     this.paths = [...this.paths, filename];
