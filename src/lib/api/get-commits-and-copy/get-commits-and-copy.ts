@@ -1,33 +1,19 @@
-import { Deps, Repository } from '../../types';
-import { copyCommitsToRepo } from '../copy-commits-to-repo';
-import { getCommitsForRepo } from '../get-commits-for-repo';
+import { Deps } from '../../types';
+import { copyRepo } from '../copy-repo';
 
 /**
- * Uses {@link getCommitsForRepo} & {@link copyCommitsToRepo} together
- * to copy commits from a list of repositories
+ * Uses {@link copyRepo} to copy all the repositories from the `config`
+ * in parallel
  *
  * @category Public API
  */
 export async function getCommitsAndCopy(deps: Deps) {
-  const { cache, config, spinner } = deps;
+  const { config, spinner } = deps;
 
-  let totalCommits = 0;
+  spinner.start('Reading repositories...');
 
-  spinner.text = 'Reading repositories...';
+  const copies: Array<Promise<number>> = config.repositories.map((repo) => copyRepo(deps, repo));
+  const total = (await Promise.all(copies)).reduce((a, b) => a + b);
 
-  for (const repo of config.repositories) {
-    spinner.text = `Reading repositories... (${repo.path})`;
-    const dates = await getCommitsForRepo(deps, repo);
-
-    spinner.text = `Copying commits... (${repo.path})`;
-    const total = await copyCommitsToRepo(deps, dates);
-
-    totalCommits += total;
-
-    if (dates.length) {
-      cache.set<Repository>(repo.path, { ...repo, after: dates[dates.length - 1] });
-    }
-  }
-
-  spinner.succeed(`Success!  Wrote commits to local repository... (${totalCommits})`);
+  spinner.succeed(`Success!  Wrote commits to local repository... (${total})`);
 }

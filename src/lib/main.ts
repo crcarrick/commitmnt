@@ -2,7 +2,7 @@
 
 import ora from 'ora';
 
-import { copyCommitsToRepo, getCommitsAndCopy, getCommitsForRepo } from './api';
+import { copyCommitsToRepo, copyRepo, getCommitsAndCopy, getCommitsForRepo } from './api';
 import { Config } from './types';
 import { Cache } from './utils/cache';
 import { createInjector } from './utils/ioc';
@@ -23,7 +23,7 @@ const defaultConfig: Pick<Config, 'branch' | 'repositories'> = {
  * (eg. filtering the commits in some way before copying them) can do that if they desire.
  *
  * @param config configuration object that requires a subset of {@link Config} fields
- * @returns a cache instance, and the initialized {@link getCommitsForRepo} {@link copyCommitsToRepo} functions
+ * @returns a cache instance, and the initialized {@link getCommitsForRepo} {@link copyRepo} {@link copyCommitsToRepo} functions
  *
  * @category Public API
  */
@@ -43,6 +43,7 @@ export async function initCmytment(config: Pick<Config, 'branch' | 'remote'>) {
   return {
     cache,
     copyCommitsToRepo,
+    copyRepo,
     getCommitsForRepo: inject(getCommitsForRepo),
   };
 }
