@@ -15,7 +15,9 @@ jest.mock('ora');
 jest.mock('../../utils/cache');
 jest.mock('../../utils/get-commits');
 
-const mockedFs = mocked(fs);
+const mocks = {
+  fs: mocked(fs),
+};
 
 describe('getCommitsForRepo', () => {
   const config = {
@@ -41,11 +43,11 @@ describe('getCommitsForRepo', () => {
   beforeEach(() => {
     jest.spyOn(process, 'chdir').mockImplementationOnce(() => undefined);
 
-    mockedFs.existsSync.mockReturnValueOnce(true);
+    mocks.fs.existsSync.mockReturnValueOnce(true);
   });
 
   afterEach(() => {
-    mockedFs.existsSync.mockReset();
+    mocks.fs.existsSync.mockReset();
   });
 
   it('retrieves the repo info from the cache', async () => {
@@ -55,8 +57,8 @@ describe('getCommitsForRepo', () => {
   });
 
   it(`throws if the repo or repo path don't exist`, async () => {
-    mockedFs.existsSync.mockReset();
-    mockedFs.existsSync.mockReturnValueOnce(false);
+    mocks.fs.existsSync.mockReset();
+    mocks.fs.existsSync.mockReturnValueOnce(false);
 
     await expect(getCommitsForRepo(deps, repo)).rejects.toThrowError(
       `Couldn't find repository at path ${repo.path}`
@@ -70,7 +72,7 @@ describe('getCommitsForRepo', () => {
   });
 
   it('calls getCommits', async () => {
-    mocked(cache).get.mockReturnValueOnce(Promise.resolve({ after: 'foo' }));
+    mocked(cache).get.mockResolvedValueOnce({ after: 'foo' });
 
     await getCommitsForRepo(deps, repo);
 

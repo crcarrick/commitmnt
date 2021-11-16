@@ -9,8 +9,10 @@ jest.mock('../do-commit');
 jest.mock('../exec');
 jest.mock('../git');
 
-const mockedDoCommit = mocked(doCommit);
-const mockedGit = mocked(git);
+const mocks = {
+  doCommit: mocked(doCommit),
+  git: mocked(git),
+};
 
 describe('doCommits', () => {
   const dates = [
@@ -21,13 +23,13 @@ describe('doCommits', () => {
   ];
 
   afterEach(() => {
-    mockedGit.push.mockReset();
+    mocks.git.push.mockReset();
   });
 
   it('calls doCommit for every commit in the list', async () => {
     await doCommits({ dates, max: 400 });
 
-    expect(mockedDoCommit).toHaveBeenCalledTimes(dates.length);
+    expect(mocks.doCommit).toHaveBeenCalledTimes(dates.length);
   });
 
   it('creates the correct number of commits', async () => {

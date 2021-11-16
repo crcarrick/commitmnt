@@ -6,32 +6,32 @@ import * as git from './git';
 
 jest.mock('../exec');
 
-const mockedExec = mocked(exec);
+const mocks = { exec: mocked(exec) };
 
 describe('git', () => {
   describe('add', () => {
     const files = 'foo bar';
 
     beforeEach(() => {
-      mockedExec.mockReset();
+      mocks.exec.mockReset();
     });
 
     it('adds everything by default', async () => {
       await git.add();
 
-      expect(mockedExec).toHaveBeenCalledWith('git add .');
+      expect(mocks.exec).toHaveBeenCalledWith('git add .');
     });
 
     it('adds a string of files', async () => {
       await git.add({ files });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git add ${files}`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git add ${files}`);
     });
 
     it('adds an array of files', async () => {
       await git.add({ files: files.split(' ') });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git add ${files}`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git add ${files}`);
     });
   });
 
@@ -39,13 +39,13 @@ describe('git', () => {
     const message = 'foo';
 
     beforeEach(() => {
-      mockedExec.mockReset();
+      mocks.exec.mockReset();
     });
 
     it('commits with a message', async () => {
       await git.commit({ message });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git commit -m "${message}"`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git commit -m "${message}"`);
     });
 
     it('commits with a date', async () => {
@@ -53,19 +53,19 @@ describe('git', () => {
 
       await git.commit({ message, date });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git commit -m "${message}" --date="${date}"`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git commit -m "${message}" --date="${date}"`);
     });
   });
 
   describe('log', () => {
     beforeEach(() => {
-      mockedExec.mockReset();
+      mocks.exec.mockReset();
     });
 
     it('logs', async () => {
       await git.log();
 
-      expect(mockedExec).toHaveBeenCalledWith('git log');
+      expect(mocks.exec).toHaveBeenCalledWith('git log');
     });
 
     it('logs with an after', async () => {
@@ -73,7 +73,7 @@ describe('git', () => {
 
       await git.log({ after });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git log --after="${after}"`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git log --after="${after}"`);
     });
 
     it('logs with an author', async () => {
@@ -81,7 +81,7 @@ describe('git', () => {
 
       await git.log({ author });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git log --author="${author}"`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git log --author="${author}"`);
     });
 
     it('logs with a before', async () => {
@@ -89,7 +89,7 @@ describe('git', () => {
 
       await git.log({ before });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git log --before="${before}"`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git log --before="${before}"`);
     });
 
     it('logs with a pretty format', async () => {
@@ -97,7 +97,7 @@ describe('git', () => {
 
       await git.log({ pretty });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git log --pretty=${pretty}`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git log --pretty=${pretty}`);
     });
 
     it('logs with many options', async () => {
@@ -108,22 +108,22 @@ describe('git', () => {
 
       await git.log({ after, author, before, pretty });
 
-      expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining(`--after="${after}"`));
-      expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining(`--author="${author}"`));
-      expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining(`--before="${before}"`));
-      expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining(`--pretty=${pretty}`));
+      expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining(`--after="${after}"`));
+      expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining(`--author="${author}"`));
+      expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining(`--before="${before}"`));
+      expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining(`--pretty=${pretty}`));
     });
   });
 
   describe('push', () => {
     beforeEach(() => {
-      mockedExec.mockReset();
+      mocks.exec.mockReset();
     });
 
     it('pushes', async () => {
       await git.push();
 
-      expect(mockedExec).toHaveBeenCalledWith('git push');
+      expect(mocks.exec).toHaveBeenCalledWith('git push');
     });
 
     it('pushes with an upstream', async () => {
@@ -131,7 +131,7 @@ describe('git', () => {
 
       await git.push({ upstream });
 
-      expect(mockedExec).toHaveBeenCalledWith(`git push -u ${upstream}`);
+      expect(mocks.exec).toHaveBeenCalledWith(`git push -u ${upstream}`);
     });
   });
 });

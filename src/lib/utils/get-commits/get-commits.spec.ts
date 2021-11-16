@@ -6,14 +6,15 @@ import { getCommits } from './get-commits';
 
 jest.mock('../exec');
 
-const mockedExec = mocked(exec);
+const mocks = { exec: mocked(exec) };
 
+// TODO: Refactor to use the `git` client
 describe('getCommits', () => {
   const author = 'Foo Bar';
   const commits = ['2021-11-14T00:00:00+0:00', '2021-11-15T00:00:00+0:00'];
 
   beforeEach(() => {
-    mockedExec.mockImplementationOnce(() =>
+    mocks.exec.mockImplementationOnce(() =>
       Promise.resolve({ stdout: commits.join('\n'), stderr: '' })
     );
   });
@@ -21,27 +22,27 @@ describe('getCommits', () => {
   it('creates a log command', async () => {
     await getCommits({ author });
 
-    expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining('git log'));
+    expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining('git log'));
   });
 
   it('selects a specific author', async () => {
     await getCommits({ author });
 
-    expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining(`--author="${author}"`));
+    expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining(`--author="${author}"`));
   });
 
   describe('`after` param', () => {
     it('selects all commits', async () => {
       const result = await getCommits({ author });
 
-      expect(mockedExec).not.toHaveBeenCalledWith(expect.stringContaining('--after'));
+      expect(mocks.exec).not.toHaveBeenCalledWith(expect.stringContaining('--after'));
       expect(result.length).toBe(commits.length);
     });
 
     it('selects commits after a specified date', async () => {
       const result = await getCommits({ author, after: commits[0] });
 
-      expect(mockedExec).toHaveBeenCalledWith(expect.stringContaining(`--after="${commits[0]}"`));
+      expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining(`--after="${commits[0]}"`));
       expect(result.length).toStrictEqual(commits.length - 1);
     });
   });

@@ -6,13 +6,12 @@ import * as git from '../git';
 
 import { doCommit } from './do-commit';
 
+jest.mock('date-fns');
+jest.mock('uuid');
 jest.mock('../exec');
 jest.mock('../git');
 
-const mockedExec = mocked(exec);
-
-jest.mock('date-fns');
-jest.mock('uuid');
+const mocks = { exec: mocked(exec) };
 
 describe('doCommit', () => {
   const date = '2021-11-14T00:00:00+0:00';
@@ -21,7 +20,7 @@ describe('doCommit', () => {
   it('changes a dummy file in order to have something to commit', async () => {
     await doCommit({ date, file });
 
-    expect(mockedExec).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`echo.*>.*${file}`)));
+    expect(mocks.exec).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`echo.*>.*${file}`)));
   });
 
   it('git adds the changes to the dummy file', async () => {
