@@ -43,7 +43,7 @@ describe('getCommits', () => {
       const result = await getCommits({ author, after: commits[0] });
 
       expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining(`--after="${commits[0]}"`));
-      expect(result.length).toStrictEqual(commits.length - 1);
+      expect(result).toHaveLength(commits.length - 1);
     });
   });
 });

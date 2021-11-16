@@ -115,6 +115,18 @@ describe('git', () => {
     });
   });
 
+  describe('misc', () => {
+    beforeEach(() => {
+      mocks.exec.mockReset();
+    });
+
+    it('accepts any git command and runs it', async () => {
+      await git.misc('pull');
+
+      expect(mocks.exec).toHaveBeenCalledWith('git pull');
+    });
+  });
+
   describe('push', () => {
     beforeEach(() => {
       mocks.exec.mockReset();

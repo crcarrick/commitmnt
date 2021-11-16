@@ -23,6 +23,12 @@ describe('doCommit', () => {
     expect(mocks.exec).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`echo.*>.*${file}`)));
   });
 
+  it('uses file foo.txt by default', async () => {
+    await doCommit({ date });
+
+    expect(mocks.exec).toHaveBeenCalledWith(expect.stringContaining('foo.txt'));
+  });
+
   it('git adds the changes to the dummy file', async () => {
     jest.spyOn(git, 'add');
 
@@ -38,5 +44,16 @@ describe('doCommit', () => {
     await doCommit({ date, file });
 
     expect(git.commit).toHaveBeenCalledWith(expect.objectContaining({ date, message: date }));
+  });
+
+  it('returns the commit sha of the created commit', async () => {
+    const resolve = { stdout: 'foo', stderr: '' };
+
+    jest.spyOn(git, 'misc').mockResolvedValueOnce(resolve);
+
+    const result = await doCommit({ date, file });
+
+    expect(git.misc).toHaveBeenCalledWith('rev-parse --short HEAD');
+    expect(result).toStrictEqual(resolve);
   });
 });

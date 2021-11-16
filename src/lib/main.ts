@@ -4,13 +4,12 @@ import ora from 'ora';
 
 import { copyCommitsToRepo, copyRepo, getCommitsAndCopy, getCommitsForRepo } from './api';
 import { Config } from './types';
-import { Cache } from './utils/cache';
-import { createInjector } from './utils/ioc';
+import { Cache, createInjector } from './utils';
 
 /**
  * Default configuration object
  */
-const defaultConfig: Pick<Config, 'branch' | 'repositories'> = {
+const defaultConfig: Config = {
   branch: 'main',
   repositories: [],
 };
@@ -27,7 +26,7 @@ const defaultConfig: Pick<Config, 'branch' | 'repositories'> = {
  *
  * @category Public API
  */
-export async function initCmytment(config: Pick<Config, 'branch' | 'remote'>) {
+export async function initCmytment(config: Pick<Config, 'branch'>) {
   const cache = new Cache();
 
   const inject = createInjector({

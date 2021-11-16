@@ -24,7 +24,6 @@ describe('copyRepo', () => {
 
   const config: Config = {
     branch: 'main',
-    remote: 'https://github.com/foo/bar',
     repositories: [repo],
   };
   const cache = mocks.cache;

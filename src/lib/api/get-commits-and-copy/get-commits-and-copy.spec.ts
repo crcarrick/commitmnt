@@ -27,7 +27,6 @@ describe('getCommitsAndCopy', () => {
   ];
   const config: Config = {
     branch: 'main',
-    remote: 'https://github.com/foo/bar',
     repositories,
   };
   const cache = new Cache();

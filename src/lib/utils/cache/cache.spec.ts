@@ -6,8 +6,15 @@ import fs from 'fs/promises';
 import { Cache } from './cache';
 
 describe('Cache', () => {
+  const key = 'foo';
+  const val = { foo: 'bar' };
+
+  let cache: Cache;
+
   beforeEach(() => {
     mockFilesystem({});
+
+    cache = new Cache();
   });
 
   afterEach(() => {
@@ -15,8 +22,6 @@ describe('Cache', () => {
   });
 
   it(`creates ./cache directory if it doesn't exist`, () => {
-    new Cache();
-
     expect(existsSync('./.cache')).toBe(true);
   });
 
@@ -29,11 +34,6 @@ describe('Cache', () => {
   });
 
   it('sets a value in the cache for a key', async () => {
-    const cache = new Cache();
-
-    const key = 'foo';
-    const val = { foo: 'bar' };
-
     await cache.set(key, val);
 
     const file = cache.getPath(key);
@@ -45,11 +45,6 @@ describe('Cache', () => {
   });
 
   it('gets a value from the cache for a key', async () => {
-    const cache = new Cache();
-
-    const key = 'foo';
-    const val = { foo: 'bar' };
-
     const file = cache.getPath(key);
 
     mockFilesystem.restore();
@@ -58,5 +53,11 @@ describe('Cache', () => {
     const result = await cache.get(key);
 
     expect(result).toStrictEqual(val);
+  });
+
+  it('get returns undefined if key does not exist in the cache', async () => {
+    const result = await cache.get(key);
+
+    expect(result).toBeUndefined();
   });
 });

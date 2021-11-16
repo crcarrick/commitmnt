@@ -9,7 +9,6 @@ import fs from 'fs-extra';
  */
 export class Cache {
   dir = path.join(process.cwd(), '.cache');
-  paths: Array<string> = [];
 
   /**
    * @param dir the directory to use in the filesystem
@@ -20,8 +19,6 @@ export class Cache {
 
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir);
-    } else {
-      this.paths = fs.readdirSync(this.dir);
     }
   }
 
@@ -49,8 +46,6 @@ export class Cache {
    */
   async set<R>(key: string, val: R) {
     const file = this.getPath(key);
-
-    this.paths = [...this.paths, file];
 
     return fs.writeJson(file, val);
   }

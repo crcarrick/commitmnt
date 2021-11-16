@@ -6,7 +6,6 @@ import { Cache } from './utils/cache';
 
 export interface Config {
   branch: string;
-  remote: string;
   repositories: Array<Pick<Repository, 'author' | 'branch' | 'path'>>;
 }
 
