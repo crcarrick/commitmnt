@@ -2,7 +2,7 @@ import { mocked } from 'ts-jest/utils';
 
 import { exec } from '../exec';
 
-import { git } from './git';
+import * as git from './git';
 
 jest.mock('../exec');
 

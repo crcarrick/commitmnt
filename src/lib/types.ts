@@ -1,3 +1,5 @@
+/** @module Types */
+
 import { Ora } from 'ora';
 
 import { Cache } from './utils/cache';
@@ -7,6 +9,7 @@ export interface Config {
   repositories: Array<Pick<Repository, 'author' | 'branch' | 'path'>>;
 }
 
+/** @internal */
 export interface Deps {
   cache: Cache;
   config: Config;

@@ -2,7 +2,7 @@ import { format, parseISO } from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
 
 import { exec } from '../exec';
-import { git } from '../git';
+import * as git from '../git';
 
 /**
  * Commits a change to a file on a specified date

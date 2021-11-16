@@ -1,12 +1,20 @@
 import { doCommit } from '../do-commit';
-import { git } from '../git';
+import * as git from '../git';
 
+/**
+ * Commits a series of changes on specified dates
+ *
+ * @param dates the list of dates
+ * @param max the maximum number of commits before pushing to github
+ * @param branch the git branch to commit to
+ * @returns the total number of commits pushed
+ */
 export async function doCommits({
-  commits,
+  dates,
   max,
   branch,
 }: {
-  commits: Array<string>;
+  dates: Array<string>;
   max: number;
   branch: string;
 }) {
@@ -15,14 +23,14 @@ export async function doCommits({
   let doneCommits = 0;
   let totalCommits = 0;
 
-  for (const commit of commits) {
+  for (const date of dates) {
     if (doneCommits >= max) {
       await git.push({ upstream });
 
       doneCommits = 0;
     }
 
-    await doCommit({ date: commit });
+    await doCommit({ date });
 
     doneCommits += 1;
     totalCommits += 1;

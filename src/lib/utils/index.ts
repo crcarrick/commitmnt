@@ -1,3 +1,5 @@
+/** @module Utils */
+
 export * from './cache';
 export * from './do-commit';
 export * from './do-commits';

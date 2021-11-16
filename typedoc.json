@@ -1,0 +1,13 @@
+{
+  "entryPoints": [
+    "src/lib/main.ts",
+    "src/lib/types.ts",
+    "src/lib/api/index.ts",
+    "src/lib/utils/index.ts"
+  ],
+  "out": "dist/docs",
+  "json": "dist/docs/typedoc.json",
+  "darkHighlightTheme": "dark-plus",
+  "exclude": "**/*.spec.ts",
+  "excludeInternal": true
+}

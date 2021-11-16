@@ -2,7 +2,7 @@ import * as datefns from 'date-fns';
 import { mocked } from 'ts-jest/utils';
 
 import { exec } from '../exec';
-import { git } from '../git';
+import * as git from '../git';
 
 import { doCommit } from './do-commit';
 

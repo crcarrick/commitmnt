@@ -2,13 +2,24 @@ import { Deps } from '../../types';
 import { doCommits } from '../../utils';
 
 /**
- * pushing a repo with several thousand commits to github all at once
- * causes github to do some weird stuff with the activity graph
+ * @internal
+ *
+ * Constant that specifies the maximum number of commits to do
+ * before pushing to github.  The github activity graph seems to
+ * behave strangely when you push a huge number of commits all at once
  */
 const MAX_COMMITS_PER_PUSH = 400;
 
-export async function copyCommitsToRepo({ config }: Deps, commits: Array<string>) {
+/**
+ * Creates commits in the current repo for a list of specified dates
+ *
+ * @param dates the dates to commit on
+ * @returns the number of commits copied
+ *
+ * @category Public API
+ */
+export async function copyCommitsToRepo({ config }: Deps, dates: Array<string>) {
   process.chdir('./');
 
-  return doCommits({ commits, max: MAX_COMMITS_PER_PUSH, branch: config.branch });
+  return doCommits({ dates, max: MAX_COMMITS_PER_PUSH, branch: config.branch });
 }
