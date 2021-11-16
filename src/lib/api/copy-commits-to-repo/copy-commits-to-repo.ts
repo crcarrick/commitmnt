@@ -1,5 +1,5 @@
 import { Deps } from '../../types';
-import { doCommits } from '../../utils';
+import { doCommits } from '../../utils/do-commits';
 
 /**
  * @internal
@@ -8,7 +8,7 @@ import { doCommits } from '../../utils';
  * before pushing to github.  The github activity graph seems to
  * behave strangely when you push a huge number of commits all at once
  */
-const MAX_COMMITS_PER_PUSH = 400;
+export const MAX_COMMITS_PER_PUSH = 400;
 
 /**
  * Creates commits in the current repo for a list of specified dates
