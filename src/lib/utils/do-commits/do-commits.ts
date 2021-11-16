@@ -22,7 +22,7 @@ export async function doCommits({
       doneCommits = 0;
     }
 
-    await doCommit({ commit });
+    await doCommit({ date: commit });
 
     doneCommits += 1;
     totalCommits += 1;
