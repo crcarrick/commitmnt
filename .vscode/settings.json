@@ -2,5 +2,5 @@
   "editor.formatOnSave": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "jest.jestCommandLine": "yarn test:int"
+  "jest.jestCommandLine": "yarn test:unit"
 }

@@ -4,47 +4,44 @@ import { mocked } from 'ts-jest/utils';
 
 import { exec } from './exec';
 
+jest.mock('child_process');
+
 const mocks = { cp: mocked(cp) };
 
-function createExecSpy(callbackWithError = false) {
-  return jest
-    .spyOn(cp, 'exec')
-    .mockImplementationOnce(
-      (
-        _: string,
-        __: cp.ExecOptions,
-        callback:
-          | ((error: cp.ExecException | null, stdout: string, stderr: string) => void)
-          | undefined
-      ): cp.ChildProcess => {
-        if (callback) callback(callbackWithError ? new Error() : null, '', '');
+function mockExec({ callbackWithError = false } = {}) {
+  mocks.cp.exec.mockImplementationOnce((_, __, callback) => {
+    if (callback) callback(callbackWithError ? new Error() : null, '', '');
 
-        return new cp.ChildProcess();
-      }
-    );
+    return new cp.ChildProcess();
+  });
 }
 
 describe('exec', () => {
   const command = 'foo';
 
-  it('wraps the child_process exec fn in a promise and calls it', async () => {
-    createExecSpy();
+  beforeEach(() => {
+    mockExec();
+  });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('wraps the child_process exec fn in a promise and calls it', async () => {
     await exec(command);
 
-    expect(mocks.cp.exec).toHaveBeenCalledWith(command, expect.anything(), expect.anything());
+    expect(cp.exec).toHaveBeenCalledWith(command, expect.anything(), expect.anything());
   });
 
   it('returns stdout and stderr', async () => {
-    createExecSpy();
-
     const result = await exec(command);
 
     expect(Object.keys(result)).toStrictEqual(['stdout', 'stderr']);
   });
 
   it('throws if child_process exec calls back with an error', async () => {
-    createExecSpy(true);
+    mocks.cp.exec.mockReset();
+    mockExec({ callbackWithError: true });
 
     await expect(exec(command)).rejects.toThrowError();
   });

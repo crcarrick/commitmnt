@@ -25,10 +25,10 @@ export async function add(addArgs?: { files: string | Array<string> }) {
  *
  * @category Git Wrapper
  */
-export async function commit({ date, message }: { date?: string; message: string }) {
-  let command = `git commit -m "${message}" `;
+export async function commit(commitArgs: { date?: string; message: string }) {
+  let command = `git commit -m "${commitArgs.message}" `;
 
-  if (date) command += `--date="${date}"`;
+  if (commitArgs.date) command += `--date="${commitArgs.date}"`;
 
   return exec(command.trim());
 }

@@ -11,7 +11,7 @@ describe('createInjector', () => {
 
   describe('inject', () => {
     it('wraps the passed fn and calls it with the specified dependencies', () => {
-      const fn = jest.fn((deps: { foo: 'bar' }) => ({ ...deps }));
+      const fn = jest.fn((deps: { foo: string }) => ({ ...deps }));
       const injected = jest.fn(inject(fn));
       const result = injected();
 

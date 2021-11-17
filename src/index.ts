@@ -1,4 +1,4 @@
-import { cmytment } from './lib/main';
+import { cmytment } from './lib';
 
-export { initCmytment } from './lib/main';
+export { initCmytment } from './lib';
 export default cmytment;
