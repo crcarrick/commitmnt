@@ -11,7 +11,7 @@ import * as git from '../../../../utils/git';
  *
  * @category Public API Module Helper
  */
-export async function getCommits({ after, author }: { after?: string; author?: string }) {
+export async function getCommits({ after, author }: { after?: string; author?: string } = {}) {
   // eslint-disable-next-line no-useless-escape
   const output = await git.log({ after, author, pretty: `format:"\"%aI\""` });
 

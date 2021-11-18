@@ -17,68 +17,66 @@ const mocks = {
   fs: mocked(fs),
 };
 
-describe('getCommitsForRepo', () => {
-  const config: Config = {
-    branch: 'main',
-    repositories: [],
-    rootDir: '/foo/bar',
-  };
-  const cache = new Cache();
+const config: Config = {
+  branch: 'main',
+  repositories: [],
+  rootDir: '/foo/bar',
+};
+const cache = new Cache();
 
-  const deps: Deps = {
-    config,
-    cache,
-    spinner: ora(),
-  };
-  const repo: Repository = {
-    author: 'Foo Bar',
-    branch: 'main',
-    path: '/foo/bar',
-  };
+const deps: Deps = {
+  config,
+  cache,
+  spinner: ora(),
+};
+const repo: Repository = {
+  author: 'Foo Bar',
+  branch: 'main',
+  path: '/foo/bar',
+};
 
-  beforeAll(() => {
-    jest.spyOn(process, 'chdir').mockImplementation();
-  });
+beforeAll(() => {
+  jest.spyOn(process, 'chdir').mockImplementation();
+});
 
-  beforeEach(() => {
-    mocks.fs.existsSync.mockReturnValue(true);
-  });
+beforeEach(() => {
+  mocks.fs.existsSync.mockReturnValue(true);
+});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
-  it('retrieves the repo info from the cache', async () => {
-    await getCommitsForRepo(deps, repo);
+it('retrieves the repo info from the cache', async () => {
+  await getCommitsForRepo(deps, repo);
 
-    expect(cache.get).toHaveBeenCalledWith(repo.path);
-  });
+  expect(cache.get).toHaveBeenCalledWith(repo.path);
+});
 
-  it(`throws if the repo or repo path don't exist`, async () => {
-    mocks.fs.existsSync.mockReset();
-    mocks.fs.existsSync.mockReturnValueOnce(false);
+it(`throws if the repo or repo path don't exist`, async () => {
+  mocks.fs.existsSync.mockReset();
+  mocks.fs.existsSync.mockReturnValueOnce(false);
 
-    await expect(getCommitsForRepo(deps, repo)).rejects.toThrowError(
-      `Couldn't find repository at path ${repo.path}`
-    );
-  });
+  await expect(getCommitsForRepo(deps, repo)).rejects.toThrowError(
+    `Couldn't find repository at path ${repo.path}`
+  );
+});
 
-  it('changes directory to the repo directory', async () => {
-    await getCommitsForRepo(deps, repo);
+it('changes directory to the repo directory', async () => {
+  await getCommitsForRepo(deps, repo);
 
-    expect(process.chdir).toHaveBeenCalledWith(repo.path);
-  });
+  expect(process.chdir).toHaveBeenCalledWith(repo.path);
+});
 
-  it('gets the commits', async () => {
-    mocked(cache).get.mockResolvedValueOnce({ after: 'foo' });
+it('gets the commits', async () => {
+  mocked(cache).get.mockResolvedValueOnce({ after: 'foo' });
 
-    await getCommitsForRepo(deps, repo);
+  await getCommitsForRepo(deps, repo);
 
-    expect(getCommits).toHaveBeenCalledWith(
-      expect.objectContaining({
-        author: repo.author,
-        after: 'foo',
-      })
-    );
-  });
+  expect(getCommits).toHaveBeenCalledWith(
+    expect.objectContaining({
+      author: repo.author,
+      after: 'foo',
+    })
+  );
 });

@@ -16,33 +16,31 @@ function mockExec({ callbackWithError = false } = {}) {
   });
 }
 
-describe('exec', () => {
-  const command = 'foo';
+const command = 'foo';
 
-  beforeEach(() => {
-    mockExec();
-  });
+beforeEach(() => {
+  mockExec();
+});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
-  it('wraps the child_process exec fn in a promise and calls it', async () => {
-    await exec(command);
+it('wraps the child_process exec fn in a promise and calls it', async () => {
+  await exec(command);
 
-    expect(cp.exec).toHaveBeenCalledWith(command, expect.anything(), expect.anything());
-  });
+  expect(cp.exec).toHaveBeenCalledWith(command, expect.anything(), expect.anything());
+});
 
-  it('returns stdout and stderr', async () => {
-    const result = await exec(command);
+it('returns stdout and stderr', async () => {
+  const result = await exec(command);
 
-    expect(Object.keys(result)).toStrictEqual(['stdout', 'stderr']);
-  });
+  expect(Object.keys(result)).toStrictEqual(['stdout', 'stderr']);
+});
 
-  it('throws if child_process exec calls back with an error', async () => {
-    mocks.cp.exec.mockReset();
-    mockExec({ callbackWithError: true });
+it('throws if child_process exec calls back with an error', async () => {
+  mocks.cp.exec.mockReset();
+  mockExec({ callbackWithError: true });
 
-    await expect(exec(command)).rejects.toThrowError();
-  });
+  await expect(exec(command)).rejects.toThrowError();
 });

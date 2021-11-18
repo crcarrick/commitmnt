@@ -8,9 +8,7 @@ import { exec } from '../exec';
  *
  * @category Git Wrapper
  */
-export async function add(addArgs?: { files: string | Array<string> }) {
-  let files = addArgs?.files || '.';
-
+export async function add({ files }: { files: string | Array<string> } = { files: '.' }) {
   if (Array.isArray(files)) files = files.join(' ');
 
   return exec(`git add ${files}`);
@@ -25,10 +23,10 @@ export async function add(addArgs?: { files: string | Array<string> }) {
  *
  * @category Git Wrapper
  */
-export async function commit(commitArgs: { date?: string; message: string }) {
-  let command = `git commit -m "${commitArgs.message}" `;
+export async function commit({ date, message }: { date?: string; message: string }) {
+  let command = `git commit -m "${message}" `;
 
-  if (commitArgs.date) command += `--date="${commitArgs.date}"`;
+  if (date) command += `--date="${date}"`;
 
   return exec(command.trim());
 }
@@ -45,18 +43,23 @@ export async function commit(commitArgs: { date?: string; message: string }) {
  *
  * @category Git Wrapper
  */
-export async function log(logArgs?: {
+export async function log({
+  after,
+  author,
+  before,
+  pretty,
+}: {
   after?: string;
   author?: string;
   before?: string;
   pretty?: string;
-}) {
+} = {}) {
   let command = 'git log ';
 
-  if (logArgs?.after) command += `--after="${logArgs.after}" `;
-  if (logArgs?.author) command += `--author="${logArgs.author}" `;
-  if (logArgs?.before) command += `--before="${logArgs.before}" `;
-  if (logArgs?.pretty) command += `--pretty=${logArgs.pretty} `;
+  if (after) command += `--after="${after}" `;
+  if (author) command += `--author="${author}" `;
+  if (before) command += `--before="${before}" `;
+  if (pretty) command += `--pretty=${pretty} `;
 
   return exec(command.trim());
 }
@@ -81,10 +84,10 @@ export async function misc(command: string) {
  *
  * @category Git Wrapper
  */
-export async function push(pushArgs?: { upstream?: string }) {
+export async function push({ upstream }: { upstream?: string } = {}) {
   let command = 'git push ';
 
-  if (pushArgs?.upstream) command += `-u ${pushArgs.upstream}`;
+  if (upstream) command += `-u ${upstream}`;
 
   return exec(command.trim());
 }

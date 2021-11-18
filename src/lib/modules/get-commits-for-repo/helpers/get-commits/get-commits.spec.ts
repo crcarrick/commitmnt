@@ -1,49 +1,45 @@
 import { mocked } from 'ts-jest/utils';
 
-import { exec } from '../../../../utils/exec';
+import * as git from '../../../../utils/git';
 
 import { getCommits } from './get-commits';
 
-jest.mock('../../../../utils/exec');
+jest.mock('../../../../utils/git');
 
-const mocks = { exec: mocked(exec) };
+const mocks = { git: mocked(git) };
 
-// TODO: Refactor to use the `git` client
-describe('getCommits', () => {
-  const author = 'Foo Bar';
-  const commits = ['2021-11-14T00:00:00+0:00', '2021-11-15T00:00:00+0:00'];
+const author = 'Foo Bar';
+const commits = ['2021-11-14T00:00:00+0:00', '2021-11-15T00:00:00+0:00'];
 
-  beforeEach(() => {
-    mocks.exec.mockImplementationOnce(() =>
-      Promise.resolve({ stdout: commits.join('\n'), stderr: '' })
-    );
-  });
+beforeEach(() => {
+  mocks.git.log.mockResolvedValue({ stdout: commits.join('\n'), stderr: '' });
+});
 
-  it('creates a log command', async () => {
-    await getCommits({ author });
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
-    expect(exec).toHaveBeenCalledWith(expect.stringContaining('git log'));
-  });
+it('creates a log command', async () => {
+  await getCommits();
 
-  it('selects a specific author', async () => {
-    await getCommits({ author });
+  expect(git.log).toHaveBeenCalled();
+});
 
-    expect(exec).toHaveBeenCalledWith(expect.stringContaining(`--author="${author}"`));
-  });
+it('always passes a format', async () => {
+  await getCommits();
 
-  describe('`after` param', () => {
-    it('selects all commits', async () => {
-      const result = await getCommits({ author });
+  expect(git.log).toHaveBeenCalledWith(expect.objectContaining({ pretty: expect.any(String) }));
+});
 
-      expect(exec).not.toHaveBeenCalledWith(expect.stringContaining('--after'));
-      expect(result.length).toBe(commits.length);
-    });
+it('selects a specific author', async () => {
+  await getCommits({ author });
 
-    it('selects commits after a specified date', async () => {
-      const result = await getCommits({ author, after: commits[0] });
+  expect(git.log).toHaveBeenCalledWith(expect.objectContaining({ author }));
+});
 
-      expect(exec).toHaveBeenCalledWith(expect.stringContaining(`--after="${commits[0]}"`));
-      expect(result).toHaveLength(commits.length - 1);
-    });
-  });
+it('selects commits after a specified date', async () => {
+  const result = await getCommits({ after: commits[0] });
+
+  expect(git.log).toHaveBeenCalledWith(expect.objectContaining({ after: commits[0] }));
+  expect(result).toHaveLength(commits.length - 1);
 });

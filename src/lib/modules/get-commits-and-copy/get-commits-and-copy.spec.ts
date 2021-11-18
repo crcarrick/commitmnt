@@ -18,54 +18,52 @@ const mocks = {
   copyRepo: mocked(copyRepo),
 };
 
-describe('getCommitsAndCopy', () => {
-  const repositories: Array<Repository> = [
-    { author: 'Foo Bar', branch: 'main', path: '/foo/bar' },
-    { author: 'Foo Bar', branch: 'main', path: '/foo/bar' },
-    { author: 'Foo Bar', branch: 'main', path: '/foo/bar' },
-    { author: 'Foo Bar', branch: 'main', path: '/foo/bar' },
-  ];
-  const config: Config = {
-    branch: 'main',
-    repositories,
-    rootDir: '/foo/bar',
-  };
-  const cache = new Cache();
-  const spinner = ora();
+const repositories: Array<Repository> = [
+  { author: 'Foo Bar', branch: 'main', path: '/foo/bar' },
+  { author: 'Foo Bar', branch: 'main', path: '/foo/bar' },
+  { author: 'Foo Bar', branch: 'main', path: '/foo/bar' },
+  { author: 'Foo Bar', branch: 'main', path: '/foo/bar' },
+];
+const config: Config = {
+  branch: 'main',
+  repositories,
+  rootDir: '/foo/bar',
+};
+const cache = new Cache();
+const spinner = ora();
 
-  const deps: Deps = {
-    config,
-    cache,
-    spinner,
-  };
+const deps: Deps = {
+  config,
+  cache,
+  spinner,
+};
 
-  const commitsPerRepo = 2;
+const commitsPerRepo = 2;
 
-  beforeEach(() => {
-    mocks.copyRepo.mockResolvedValue(commitsPerRepo);
-  });
+beforeEach(() => {
+  mocks.copyRepo.mockResolvedValue(commitsPerRepo);
+});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
-  it('starts the spinner', async () => {
-    await getCommitsAndCopy(deps);
+it('starts the spinner', async () => {
+  await getCommitsAndCopy(deps);
 
-    expect(spinner.start).toHaveBeenCalled();
-  });
+  expect(spinner.start).toHaveBeenCalled();
+});
 
-  it('uses copyRepo to read each repository', async () => {
-    await getCommitsAndCopy(deps);
+it('uses copyRepo to read each repository', async () => {
+  await getCommitsAndCopy(deps);
 
-    expect(copyRepo).toHaveBeenCalledTimes(repositories.length);
-  });
+  expect(copyRepo).toHaveBeenCalledTimes(repositories.length);
+});
 
-  it('stops the spinner and prints the total', async () => {
-    await getCommitsAndCopy(deps);
+it('stops the spinner and prints the total', async () => {
+  await getCommitsAndCopy(deps);
 
-    expect(spinner.succeed).toHaveBeenCalledWith(
-      expect.stringContaining(`${commitsPerRepo * repositories.length}`)
-    );
-  });
+  expect(spinner.succeed).toHaveBeenCalledWith(
+    expect.stringContaining(`${commitsPerRepo * repositories.length}`)
+  );
 });

@@ -19,79 +19,77 @@ const mocks = {
   getCommitsForRepo: mocked(getCommitsForRepo),
 };
 
-describe('copyRepo', () => {
-  const repo = { author: 'Foo Bar', branch: 'main', path: '/foo/bar' };
+const repo = { author: 'Foo Bar', branch: 'main', path: '/foo/bar' };
 
-  const config: Config = {
-    branch: 'main',
-    repositories: [repo],
-    rootDir: '/foo/bar',
-  };
-  const cache = mocks.cache;
+const config: Config = {
+  branch: 'main',
+  repositories: [repo],
+  rootDir: '/foo/bar',
+};
+const cache = mocks.cache;
 
-  const deps: Deps = {
-    config,
-    cache,
-    spinner: ora(),
-  };
+const deps: Deps = {
+  config,
+  cache,
+  spinner: ora(),
+};
 
-  afterEach(() => {
-    jest.resetAllMocks();
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
+describe('when commit dates are returned', () => {
+  const commits = ['foo', 'bar'];
+
+  beforeEach(() => {
+    mocks.getCommitsForRepo.mockResolvedValueOnce(commits);
   });
 
-  describe('when commit dates are returned', () => {
-    const commits = ['foo', 'bar'];
+  it('reads each repository', async () => {
+    await copyRepo(deps, repo);
 
-    beforeEach(() => {
-      mocks.getCommitsForRepo.mockResolvedValueOnce(commits);
-    });
-
-    it('reads each repository', async () => {
-      await copyRepo(deps, repo);
-
-      expect(getCommitsForRepo).toHaveBeenCalledWith(deps, repo);
-    });
-
-    it('copies commits to the current repository', async () => {
-      await copyRepo(deps, repo);
-
-      expect(copyCommitsToRepo).toHaveBeenCalledWith(
-        expect.objectContaining(deps),
-        expect.arrayContaining(commits)
-      );
-    });
-
-    it('writes the correct data to the cache', async () => {
-      await copyRepo(deps, repo);
-
-      expect(cache.set).toHaveBeenCalledWith(
-        repo.path,
-        expect.objectContaining({ after: commits[commits.length - 1] })
-      );
-    });
+    expect(getCommitsForRepo).toHaveBeenCalledWith(deps, repo);
   });
 
-  describe('when no dates are returned', () => {
-    beforeEach(() => {
-      mocks.getCommitsForRepo.mockResolvedValueOnce([]);
-    });
+  it('copies commits to the current repository', async () => {
+    await copyRepo(deps, repo);
 
-    it(`doesn't copy commits to the current directory`, async () => {
-      await copyRepo(deps, repo);
+    expect(copyCommitsToRepo).toHaveBeenCalledWith(
+      expect.objectContaining(deps),
+      expect.arrayContaining(commits)
+    );
+  });
 
-      expect(copyCommitsToRepo).not.toHaveBeenCalled();
-    });
+  it('writes the correct data to the cache', async () => {
+    await copyRepo(deps, repo);
 
-    it(`doesn't write to the cache`, async () => {
-      await copyRepo(deps, repo);
+    expect(cache.set).toHaveBeenCalledWith(
+      repo.path,
+      expect.objectContaining({ after: commits[commits.length - 1] })
+    );
+  });
+});
 
-      expect(cache.set).not.toHaveBeenCalled();
-    });
+describe('when no dates are returned', () => {
+  beforeEach(() => {
+    mocks.getCommitsForRepo.mockResolvedValueOnce([]);
+  });
 
-    it('returns 0', async () => {
-      const result = await copyRepo(deps, repo);
+  it(`doesn't copy commits to the current directory`, async () => {
+    await copyRepo(deps, repo);
 
-      expect(result).toBe(0);
-    });
+    expect(copyCommitsToRepo).not.toHaveBeenCalled();
+  });
+
+  it(`doesn't write to the cache`, async () => {
+    await copyRepo(deps, repo);
+
+    expect(cache.set).not.toHaveBeenCalled();
+  });
+
+  it('returns 0', async () => {
+    const result = await copyRepo(deps, repo);
+
+    expect(result).toBe(0);
   });
 });

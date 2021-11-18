@@ -9,11 +9,12 @@ import cp from 'child_process';
  * @param command the command to execute
  * @returns the output of the executed command
  */
-export const exec = (command: string): Promise<{ stdout: string; stderr: string }> =>
-  new Promise((resolve, reject) => {
+export function exec(command: string): Promise<{ stdout: string; stderr: string }> {
+  return new Promise((resolve, reject) => {
     cp.exec(command, {}, (err, stdout, stderr) => {
       if (err) reject(err);
 
       resolve({ stdout, stderr });
     });
   });
+}

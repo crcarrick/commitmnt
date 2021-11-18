@@ -19,12 +19,11 @@ const mocks = {
   getCommitsAndCopy: mocked(getCommitsAndCopy),
 };
 
-afterEach(() => {
-  mocks.Cache.mockReset();
-  mocks.createInjector.mockClear();
-});
-
 describe('cmytment', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const config = { branch: 'main', repositories: [], rootDir: '' };
 
   it('creates a cache', async () => {
@@ -53,6 +52,10 @@ describe('cmytment', () => {
 
 describe('initCmytment', () => {
   const config = { branch: 'main' };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('creates a cache', async () => {
     await initCmytment(config);

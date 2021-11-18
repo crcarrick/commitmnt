@@ -23,7 +23,7 @@ const defaultConfig: Config = {
  * (eg. filtering the commits in some way before copying them) can do that if they desire.
  *
  * @param config subset of {@link Config} fields
- * @returns a cache instance, and the initialized {@link getCommitsForRepo} {@link copyRepo} {@link copyCommitsToRepo} functions
+ * @returns a {@link Cache} instance, and the initialized {@link getCommitsForRepo} {@link copyRepo} {@link copyCommitsToRepo} functions
  *
  * @category Public API
  */

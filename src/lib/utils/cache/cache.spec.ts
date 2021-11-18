@@ -5,59 +5,57 @@ import fs from 'fs/promises';
 
 import { Cache } from './cache';
 
-describe('Cache', () => {
-  const key = 'foo';
-  const val = { foo: 'bar' };
+const key = 'foo';
+const val = { foo: 'bar' };
 
-  let cache: Cache;
+let cache: Cache;
 
-  beforeEach(() => {
-    mockFilesystem({});
+beforeEach(() => {
+  mockFilesystem({});
 
-    cache = new Cache();
-  });
+  cache = new Cache();
+});
 
-  afterEach(() => {
-    mockFilesystem.restore();
-  });
+afterEach(() => {
+  mockFilesystem.restore();
+});
 
-  it(`creates ./cache directory if it doesn't exist`, () => {
-    expect(existsSync('./.cache')).toBe(true);
-  });
+it(`creates ./cache directory if it doesn't exist`, () => {
+  expect(existsSync('./.cache')).toBe(true);
+});
 
-  it(`creates custom directory if it doesn't exist`, () => {
-    const dir = './foo';
+it(`creates custom directory if it doesn't exist`, () => {
+  const dir = './foo';
 
-    new Cache(dir);
+  new Cache(dir);
 
-    expect(existsSync(dir)).toBe(true);
-  });
+  expect(existsSync(dir)).toBe(true);
+});
 
-  it('sets a value in the cache for a key', async () => {
-    await cache.set(key, val);
+it('sets a value in the cache for a key', async () => {
+  await cache.set(key, val);
 
-    const file = cache.getPath(key);
+  const file = cache.getPath(key);
 
-    const result = await fs.readFile(file, 'utf8');
+  const result = await fs.readFile(file, 'utf8');
 
-    expect(existsSync(file)).toBe(true);
-    expect(JSON.parse(result)).toStrictEqual(val);
-  });
+  expect(existsSync(file)).toBe(true);
+  expect(JSON.parse(result)).toStrictEqual(val);
+});
 
-  it('gets a value from the cache for a key', async () => {
-    const file = cache.getPath(key);
+it('gets a value from the cache for a key', async () => {
+  const file = cache.getPath(key);
 
-    mockFilesystem.restore();
-    mockFilesystem({ [file]: JSON.stringify(val) });
+  mockFilesystem.restore();
+  mockFilesystem({ [file]: JSON.stringify(val) });
 
-    const result = await cache.get(key);
+  const result = await cache.get(key);
 
-    expect(result).toStrictEqual(val);
-  });
+  expect(result).toStrictEqual(val);
+});
 
-  it('get returns undefined if key does not exist in the cache', async () => {
-    const result = await cache.get(key);
+it('get returns undefined if key does not exist in the cache', async () => {
+  const result = await cache.get(key);
 
-    expect(result).toBeUndefined();
-  });
+  expect(result).toBeUndefined();
 });

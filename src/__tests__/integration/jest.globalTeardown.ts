@@ -1,5 +1,5 @@
-// import { teardownSandbox } from './utils';
+import { teardownSandbox } from './utils/setup';
 
 export default async function teardown() {
-  // await teardownSandbox();
+  await teardownSandbox();
 }
