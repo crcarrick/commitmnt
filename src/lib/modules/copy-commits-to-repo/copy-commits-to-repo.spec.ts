@@ -12,7 +12,7 @@ jest.mock('./helpers/make-commits');
 
 const dates = ['foo', 'bar'];
 const config: Config = {
-  branch: '',
+  branch: 'main',
   repositories: [],
   rootDir: '/foo/bar',
 };
@@ -42,6 +42,6 @@ it('makes the commits', async () => {
   await copyCommitsToRepo(deps, dates);
 
   expect(makeCommits).toHaveBeenCalledWith(
-    expect.objectContaining({ dates, max: MAX_COMMITS_PER_PUSH })
+    expect.objectContaining({ branch: config.branch, dates, max: MAX_COMMITS_PER_PUSH })
   );
 });

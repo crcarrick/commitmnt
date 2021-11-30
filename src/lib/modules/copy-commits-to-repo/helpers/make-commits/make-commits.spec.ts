@@ -24,30 +24,32 @@ const dates = [
   '2021-11-15T00:00:00+0:00',
 ];
 
+const makeCommitsArgs = { branch: 'main', dates, max: MAX_COMMITS_PER_PUSH };
+
 afterEach(() => {
   jest.resetAllMocks();
 });
 
 it('makes a commit for every date in the list', async () => {
-  await makeCommits({ dates, max: MAX_COMMITS_PER_PUSH });
+  await makeCommits(makeCommitsArgs);
 
   expect(git.commit).toHaveBeenCalledTimes(dates.length);
 });
 
 it('changes a dummy file (foo.txt) in order to have something to commit', async () => {
-  await makeCommits({ dates, max: MAX_COMMITS_PER_PUSH });
+  await makeCommits(makeCommitsArgs);
 
   expect(exec).toHaveBeenCalledWith(expect.stringMatching(new RegExp(`echo.*>.*foo.txt`)));
 });
 
 it('uses file foo.txt by default', async () => {
-  await makeCommits({ dates, max: MAX_COMMITS_PER_PUSH });
+  await makeCommits(makeCommitsArgs);
 
   expect(exec).toHaveBeenCalledWith(expect.stringContaining('foo.txt'));
 });
 
 it('git adds the changes to the dummy file', async () => {
-  await makeCommits({ dates, max: MAX_COMMITS_PER_PUSH });
+  await makeCommits(makeCommitsArgs);
 
   expect(git.add).toHaveBeenCalled();
 });
@@ -55,7 +57,7 @@ it('git adds the changes to the dummy file', async () => {
 it('commits the changes backdated to the commit date', async () => {
   mocks.datefns.format.mockReturnValueOnce(dates[0]);
 
-  await makeCommits({ dates, max: MAX_COMMITS_PER_PUSH });
+  await makeCommits(makeCommitsArgs);
 
   expect(git.commit).toHaveBeenCalledWith(
     expect.objectContaining({ date: dates[0], message: dates[0] })
@@ -63,19 +65,19 @@ it('commits the changes backdated to the commit date', async () => {
 });
 
 it('creates the correct number of commits', async () => {
-  const result = await makeCommits({ dates, max: MAX_COMMITS_PER_PUSH });
+  const result = await makeCommits(makeCommitsArgs);
 
   expect(result).toBe(dates.length);
 });
 
 it('pushes to the correct branch', async () => {
-  await makeCommits({ dates, max: MAX_COMMITS_PER_PUSH });
+  await makeCommits(makeCommitsArgs);
 
   expect(git.push).toHaveBeenCalledTimes(1);
 });
 
 it('pushes when it reaches the max commits, then continues', async () => {
-  await makeCommits({ dates, max: 2 });
+  await makeCommits({ ...makeCommitsArgs, max: 2 });
 
   expect(git.push).toHaveBeenCalledTimes(2);
 });

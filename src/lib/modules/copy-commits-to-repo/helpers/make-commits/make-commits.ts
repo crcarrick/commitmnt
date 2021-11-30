@@ -14,13 +14,21 @@ import * as git from '../../../../utils/git';
  *
  * @category Public API Module Helper
  */
-export async function makeCommits({ dates, max }: { dates: Array<string>; max: number }) {
+export async function makeCommits({
+  branch,
+  dates,
+  max,
+}: {
+  branch: string;
+  dates: Array<string>;
+  max: number;
+}) {
   let doneCommits = 0;
   let totalCommits = 0;
 
   for (const date of dates) {
     if (doneCommits >= max) {
-      await git.push();
+      await git.push({ upstream: branch });
 
       doneCommits = 0;
     }
@@ -35,7 +43,7 @@ export async function makeCommits({ dates, max }: { dates: Array<string>; max: n
     totalCommits += 1;
   }
 
-  if (totalCommits > 0) await git.push();
+  await git.push({ upstream: branch });
 
   return totalCommits;
 }

@@ -1,4 +1,6 @@
-// eslint-disable-next-line import/order
+/* eslint-disable import/order */
+import path from 'path';
+
 import mockFilesystem from 'mock-fs';
 import { existsSync } from 'fs';
 import fs from 'fs/promises';
@@ -20,16 +22,16 @@ afterEach(() => {
   mockFilesystem.restore();
 });
 
-it(`creates ./cache directory if it doesn't exist`, () => {
+it(`creates default ./.cache directory`, () => {
   expect(existsSync('./.cache')).toBe(true);
 });
 
-it(`creates custom directory if it doesn't exist`, () => {
+it(`creates custom directory`, () => {
   const dir = './foo';
 
   new Cache(dir);
 
-  expect(existsSync(dir)).toBe(true);
+  expect(existsSync(path.join(dir, '.cache'))).toBe(true);
 });
 
 it('sets a value in the cache for a key', async () => {

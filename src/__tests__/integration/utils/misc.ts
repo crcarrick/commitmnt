@@ -1,36 +1,75 @@
 import path from 'path';
 
+import { format, subDays } from 'date-fns';
+
+import { Repository } from '../../../lib/types';
 import git from '../../../lib/utils/git';
 import { config } from '../config';
 
-export const TestDir = {
-  get Root() {
+export const testDirs = {
+  get root() {
     return path.resolve(__dirname, '..');
   },
-  get Sandbox() {
-    return path.resolve(this.Root, config.sandbox.name);
+  get sandbox() {
+    return path.resolve(this.root, config.sandbox);
   },
-  get Local() {
-    return path.resolve(this.Sandbox, config.git.local.name);
+  get local() {
+    return path.resolve(this.sandbox, config.git.local);
   },
-  get Remote() {
-    return path.resolve(this.Sandbox, config.git.remote.name);
+  get remote() {
+    return path.resolve(this.sandbox, config.git.remote);
   },
 } as const;
 
-export function getTestRepoNames() {
-  return new Array(config.git.test.numRepos)
-    .fill(null)
-    .map((_, idx) => path.resolve(TestDir.Sandbox, `${config.git.test.prefix}_${idx + 1}`));
+function createRepo(dir: string): Repository {
+  return {
+    author: config.git.author,
+    branch: config.git.branch,
+    path: dir,
+  };
 }
 
-export async function initRepo(dir: string) {
-  process.chdir(dir);
+export const commitDates = new Array<Date>(config.git.mock.commitsPerRepo)
+  .fill(new Date())
+  .map((date, idx) => {
+    date.setHours(0, 0, 0, 0);
 
-  await git('init');
-  await git('config user.name "Foo Bar"');
+    return format(subDays(date, config.git.mock.commitsPerRepo - idx), 'yyyy-MM-dd HH:mm:ss');
+  });
+
+export const testRepos = {
+  local: createRepo(testDirs.local),
+  remote: createRepo(testDirs.remote),
+};
+export const mockRepos = new Array(config.git.mock.numRepos)
+  .fill(null)
+  .map((_, idx) =>
+    createRepo(path.resolve(testDirs.sandbox, `${config.git.mock.prefix}_${idx + 1}`))
+  );
+
+export async function initRepo(repo: Repository, { bare }: { bare?: boolean } = {}) {
+  process.chdir(repo.path);
+
+  await git(`init ${bare ? '--bare' : ''}`);
+  await git(`config user.name "${config.git.author}"`);
   await git('config user.email "foo@bar.com');
-  await git('checkout -B main');
 
-  process.chdir(TestDir.Root);
+  if (!bare) {
+    await git(`checkout -B ${repo.branch}`);
+  }
+
+  process.chdir(testDirs.root);
+}
+
+export async function seedTestRepos() {
+  // This is a bit different.  Here we are going to create a --bare {remote}
+  // and then clone it to {local}
+  process.chdir(testRepos.remote.path);
+  await initRepo(testRepos.remote, { bare: true });
+
+  process.chdir(testDirs.sandbox);
+  await git(`clone ${testRepos.remote.path} ${testRepos.local.path}`);
+
+  process.chdir(testRepos.local.path);
+  await git(`checkout -B ${config.git.branch}`);
 }

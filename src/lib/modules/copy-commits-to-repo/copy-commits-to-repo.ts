@@ -22,5 +22,5 @@ export const MAX_COMMITS_PER_PUSH = 400;
 export async function copyCommitsToRepo({ config }: Deps, dates: Array<string>) {
   process.chdir(config.rootDir);
 
-  return makeCommits({ dates, max: MAX_COMMITS_PER_PUSH });
+  return makeCommits({ branch: config.branch, dates, max: MAX_COMMITS_PER_PUSH });
 }

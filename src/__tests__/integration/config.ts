@@ -1,19 +1,14 @@
 export const config = {
-  sandbox: {
-    name: 'sandbox',
-  },
+  sandbox: 'sandbox',
   git: {
     author: 'Foo Bar',
-    remote: {
-      name: 'remote',
-    },
-    local: {
-      name: 'local',
-    },
-    test: {
-      prefix: 'test',
+    branch: 'main',
+    local: 'local',
+    remote: 'remote',
+    mock: {
+      prefix: 'mock',
       numRepos: 2,
-      commitsPerRepo: 500,
+      commitsPerRepo: 20,
     },
   },
 };

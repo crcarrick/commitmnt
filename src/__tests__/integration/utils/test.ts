@@ -1,25 +1,35 @@
+import { compareAsc, parseISO } from 'date-fns';
 import fs from 'fs-extra';
 
+import { Repository } from '../../../lib/types';
 import * as git from '../../../lib/utils/git';
 
-import { initRepo, TestDir } from './misc';
+import { seedTestRepos, testDirs, testRepos } from './misc';
 
-export async function resetTestDirs() {
-  for (const dir of [TestDir.Local, TestDir.Remote]) {
-    await fs.emptyDir(dir);
-    await initRepo(dir);
+export async function resetTestRepos() {
+  for (const repo of Object.values(testRepos)) {
+    await fs.emptyDir(repo.path);
   }
+
+  await seedTestRepos();
 }
 
-export async function getTestDirCommits(
-  dir: keyof typeof TestDir,
+// FIXME: this is dumb.  i'm essentially just reimplementing the `getCommits` helper from `getCommitsForRepo`
+//        need to figure out some way to compartmentalize this functionality without like.. using pieces of the
+//        library to help test the library (which seems wrong somehow)
+export async function getRepoCommits(
+  repo: Repository,
   { after, author }: { after?: string; author?: string } = {}
 ) {
-  process.chdir(dir);
+  process.chdir(repo.path);
 
-  const commits = await git.log({ after, author });
+  const log = await git.log({ after, author });
 
-  process.chdir(TestDir.Root);
+  process.chdir(testDirs.root);
 
-  return commits;
+  return log.stdout
+    .split('\n')
+    .filter(Boolean)
+    .sort((a, b) => compareAsc(parseISO(a), parseISO(b)))
+    .slice(after ? 1 : 0);
 }

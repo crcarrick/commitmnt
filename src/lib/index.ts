@@ -27,8 +27,8 @@ const defaultConfig: Config = {
  *
  * @category Public API
  */
-export async function initCmytment(config: Pick<Config, 'branch'>) {
-  const cache = new Cache();
+export async function initCmytment(config: Pick<Config, 'branch' | 'rootDir'>) {
+  const cache = new Cache(config.rootDir);
 
   const inject = createInjector<Deps>({
     cache,
@@ -56,7 +56,7 @@ export async function initCmytment(config: Pick<Config, 'branch'>) {
  * @category Public API
  */
 export async function cmytment(config: Config, options?: { quiet: boolean }) {
-  const cache = new Cache();
+  const cache = new Cache(config.rootDir);
 
   const inject = createInjector<Deps>({
     cache,

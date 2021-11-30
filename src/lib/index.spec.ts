@@ -51,7 +51,7 @@ describe('cmytment', () => {
 });
 
 describe('initCmytment', () => {
-  const config = { branch: 'main' };
+  const config = { branch: 'main', rootDir: '' };
 
   afterEach(() => {
     jest.clearAllMocks();

@@ -7,17 +7,17 @@ import fs from 'fs-extra';
  * Very simple cache class that uses the filesystem
  */
 export class Cache {
-  dir = path.join(process.cwd(), '.cache');
+  dir: string;
 
   /**
-   * @param dir the directory to use in the filesystem
+   * @param baseDir the directory to create the .cache directory in
    * @constructor
    */
-  constructor(dir?: string) {
-    if (dir) this.dir = path.join(process.cwd(), dir);
+  constructor(baseDir = './') {
+    this.dir = path.join(baseDir, '.cache');
 
     if (!fs.existsSync(this.dir)) {
-      fs.mkdirSync(this.dir);
+      fs.mkdirSync(this.dir, { recursive: true });
     }
   }
 
