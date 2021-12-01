@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { Deps, Repository } from '../../types';
 import * as git from '../../utils/git';
 import { copyCommitsToRepo } from '../copy-commits-to-repo';
@@ -20,7 +22,8 @@ export async function copyRepo(deps: Deps, repo: Repository) {
     const total = await copyCommitsToRepo(deps, dates);
 
     await deps.cache.set<Repository>(repo.path, { ...repo, after: dates[dates.length - 1] });
-
+    await git.add();
+    await git.commit({ message: `cache updates for ${path.basename(repo.path)}` });
     await git.push();
 
     return total;
