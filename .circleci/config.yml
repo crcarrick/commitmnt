@@ -8,6 +8,9 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
+      - run:
+          name: Setup env variables
+          command: echo 'export CODECOV_TOKEN="8763da5d-2ec9-4bb7-8258-1eb230173fb9"' >> $BASH_ENV
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -22,8 +25,6 @@ jobs:
             - ~/.cache/yarn
       - run: yarn test:unit:coverage
       - codecov/upload:
-          environment:
-            CODECOV_TOKEN: 8763da5d-2ec9-4bb7-8258-1eb230173fb9
           file: coverage/coverage-final.json
 
 workflows:
