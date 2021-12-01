@@ -41,8 +41,8 @@ export async function initCmytment(config: Pick<Config, 'branch' | 'rootDir'>) {
 
   return {
     cache,
-    copyCommitsToRepo,
-    copyRepo,
+    copyCommitsToRepo: inject(copyCommitsToRepo),
+    copyRepo: inject(copyRepo),
     getCommitsForRepo: inject(getCommitsForRepo),
   };
 }

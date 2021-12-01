@@ -59,7 +59,7 @@ export async function setupSandbox() {
 }
 
 export async function teardownSandbox() {
-  // for (const repo of testRepos) {
-  //   await fs.emptyDir(repo.path);
-  // }
+  for (const repo of Object.values(testRepos)) {
+    await fs.emptyDir(repo.path);
+  }
 }

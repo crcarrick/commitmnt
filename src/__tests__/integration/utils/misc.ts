@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { format, subDays } from 'date-fns';
+import { formatISO, subDays } from 'date-fns';
 
 import { Repository } from '../../../lib/types';
 import git from '../../../lib/utils/git';
@@ -34,7 +34,7 @@ export const commitDates = new Array<Date>(config.git.mock.commitsPerRepo)
   .map((date, idx) => {
     date.setHours(0, 0, 0, 0);
 
-    return format(subDays(date, config.git.mock.commitsPerRepo - idx), 'yyyy-MM-dd HH:mm:ss');
+    return formatISO(subDays(date, config.git.mock.commitsPerRepo - idx));
   });
 
 export const testRepos = {
@@ -54,7 +54,9 @@ export async function initRepo(repo: Repository, { bare }: { bare?: boolean } = 
   await git(`config user.name "${config.git.author}"`);
   await git('config user.email "foo@bar.com');
 
-  if (!bare) {
+  if (bare) {
+    await git(`symbolic-ref HEAD refs/heads/${repo.branch}`);
+  } else {
     await git(`checkout -B ${repo.branch}`);
   }
 
@@ -64,7 +66,6 @@ export async function initRepo(repo: Repository, { bare }: { bare?: boolean } = 
 export async function seedTestRepos() {
   // This is a bit different.  Here we are going to create a --bare {remote}
   // and then clone it to {local}
-  process.chdir(testRepos.remote.path);
   await initRepo(testRepos.remote, { bare: true });
 
   process.chdir(testDirs.sandbox);

@@ -23,7 +23,7 @@ export async function getRepoCommits(
 ) {
   process.chdir(repo.path);
 
-  const log = await git.log({ after, author });
+  const log = await git.log({ after, author, pretty: `format:""%aI""` });
 
   process.chdir(testDirs.root);
 

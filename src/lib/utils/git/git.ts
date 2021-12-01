@@ -87,7 +87,7 @@ export async function misc(command: string) {
 export async function push({ upstream }: { upstream?: string } = {}) {
   let command = 'git push ';
 
-  if (upstream) command += `-u ${upstream}`;
+  if (upstream) command += `-u origin ${upstream}`;
 
   return exec(command.trim());
 }

@@ -15,6 +15,7 @@ const config: Config.InitialOptions = {
   },
   globalSetup: '<rootDir>/jest.globalSetup.ts',
   globalTeardown: '<rootDir>/jest.globalTeardown.ts',
+  maxWorkers: 1,
 };
 
 export default config;

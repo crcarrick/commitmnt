@@ -138,10 +138,10 @@ describe('push', () => {
   });
 
   it('pushes with an upstream', async () => {
-    const upstream = 'origin foo';
+    const upstream = 'foo';
 
     await git.push({ upstream });
 
-    expect(exec).toHaveBeenCalledWith(`git push -u ${upstream}`);
+    expect(exec).toHaveBeenCalledWith(`git push -u origin ${upstream}`);
   });
 });
