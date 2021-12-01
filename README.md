@@ -1,6 +1,6 @@
 # Commitment (commitmnt)
 
-[![CircleCI](https://circleci.com/gh/crcarrick/commitmnt.svg?style=svg)](https://app.circleci.com/pipelines/github/crcarrick/commitmnt)
+[![CircleCI](https://circleci.com/gh/crcarrick/commitmnt.svg?style=svg)](https://app.circleci.com/pipelines/github/crcarrick/commitmnt) [![codecov](https://codecov.io/gh/crcarrick/commitmnt/branch/main/graph/badge.svg?token=AB620314JP)](https://codecov.io/gh/crcarrick/commitmnt)
 
 Do you work for a company that uses Gitlab or Bitbucket? Are you worried that people are looking at your cold 🥶, barren 🌵 husk of a Github activity graph and judging you; wondering if you even code anymore? Commitment is a node.js library that helps you copy your commit history from a list of source repositories into a new repository you can then push up to Github.
 
