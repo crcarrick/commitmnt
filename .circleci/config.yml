@@ -22,6 +22,8 @@ jobs:
             - ~/.cache/yarn
       - run: yarn test:unit:coverage
       - codecov/upload:
+          environment:
+            CODECOV_TOKEN: 8763da5d-2ec9-4bb7-8258-1eb230173fb9
           file: coverage/coverage-final.json
 
 workflows:
