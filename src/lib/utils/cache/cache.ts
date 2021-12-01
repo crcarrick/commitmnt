@@ -14,7 +14,7 @@ export class Cache {
    * @constructor
    */
   constructor(baseDir = './') {
-    this.dir = path.join(baseDir, '.cache');
+    this.dir = path.resolve(baseDir, '.cache');
 
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir, { recursive: true });

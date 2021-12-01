@@ -12,6 +12,7 @@ jest.mock('ora');
 jest.mock('../copy-commits-to-repo');
 jest.mock('../get-commits-for-repo');
 jest.mock('../../utils/cache');
+jest.mock('../../utils/git');
 
 const mocks = {
   cache: mocked(new Cache()),

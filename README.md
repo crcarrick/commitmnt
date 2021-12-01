@@ -14,6 +14,14 @@ This project is intended to be silly and fun. Please don't take it too seriously
 
 <img alt="Full Activity Graph" src="https://i.ibb.co/JxWxhj2/gh-activity-full.png" width="75%" />
 
+## Features
+
+- ✔️ Copy commits from source repos to your current repo
+  - Basic, easy setup to copy a list of source repos
+  - Advanced setup to take fine grained control of the copy process
+- ✔️ Incremental copies - re-running the library only copies commits dated after the last commit copied in the previous run
+- ✔️ Cool green github graph (⬅️ most important)
+
 ## Installation & Setup
 
 ```
