@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/crcarrick/commitmnt/compare/v1.0.1...v1.0.2) (2021-12-01)
+
+
+### Bug Fixes
+
+* **Cache:** use path.resolve instead of path.join ([b885505](https://github.com/crcarrick/commitmnt/commit/b885505e20065c25b3de1cdf2c6c92833d64475f))
+
 ### [1.0.1](https://github.com/crcarrick/commitmnt/compare/v1.0.0...v1.0.1) (2021-12-01)
 
 
