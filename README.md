@@ -6,6 +6,14 @@ There are several projects floating around Github that will _fake_ you a commit 
 
 This project is intended to be silly and fun. Please don't take it too seriously 👋.
 
+Before 😢
+
+![Empty Activity Graph](https://ibb.co/NpnCWXm)
+
+After 😄
+
+![Full Activity Graph](https://ibb.co/NpnCWXm)
+
 ## Installation & Setup
 
 ```
