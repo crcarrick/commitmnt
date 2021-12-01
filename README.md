@@ -6,13 +6,15 @@ There are several projects floating around Github that will _fake_ you a commit 
 
 This project is intended to be silly and fun. Please don't take it too seriously 👋.
 
-Before 😢
+## Serious Before & After Photos
 
-![Empty Activity Graph](https://ibb.co/NpnCWXm)
+#### Before 😢
 
-After 😄
+![Empty Activity Graph](https://i.ibb.co/bLRmNx2/gh-activity-empty.png)
 
-![Full Activity Graph](https://ibb.co/NpnCWXm)
+#### After &nbsp;&nbsp;😄
+
+![Full Activity Graph](https://i.ibb.co/bLRmNx2/gh-activity-empty.png)
 
 ## Installation & Setup
 
