@@ -1,4 +1,4 @@
-import { cmytment } from '../../../lib/index';
+import { commitment } from '../../../lib/index';
 import { mockRepos, testDirs, testRepos } from '../utils/misc';
 import { getRepoCommits, resetTestRepos } from '../utils/tests';
 
@@ -8,7 +8,7 @@ let mockCommits2: Array<string>;
 let remoteCommits: Array<string>;
 
 beforeAll(async () => {
-  await cmytment(
+  await commitment(
     {
       branch: 'main',
       rootDir: testDirs.local,

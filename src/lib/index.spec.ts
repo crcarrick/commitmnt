@@ -4,7 +4,7 @@ import { getCommitsAndCopy } from './modules/get-commits-and-copy';
 import { Cache } from './utils/cache';
 import { createInjector } from './utils/ioc';
 
-import { cmytment, initCmytment } from './index';
+import { commitment, initCommitment } from './index';
 
 jest.mock('ora');
 jest.mock('./modules/get-commits-and-copy');
@@ -19,7 +19,7 @@ const mocks = {
   getCommitsAndCopy: mocked(getCommitsAndCopy),
 };
 
-describe('cmytment', () => {
+describe('commitment', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -27,13 +27,13 @@ describe('cmytment', () => {
   const config = { branch: 'main', repositories: [], rootDir: '' };
 
   it('creates a cache', async () => {
-    await cmytment(config);
+    await commitment(config);
 
     expect(mocks.Cache.mock.calls).toHaveLength(1);
   });
 
   it('creates an injector', async () => {
-    await cmytment(config);
+    await commitment(config);
 
     expect(createInjector).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -44,13 +44,13 @@ describe('cmytment', () => {
   });
 
   it('calls the main function', async () => {
-    await cmytment(config);
+    await commitment(config);
 
     expect(getCommitsAndCopy).toHaveBeenCalled();
   });
 });
 
-describe('initCmytment', () => {
+describe('initCommitment', () => {
   const config = { branch: 'main', rootDir: '' };
 
   afterEach(() => {
@@ -58,13 +58,13 @@ describe('initCmytment', () => {
   });
 
   it('creates a cache', async () => {
-    await initCmytment(config);
+    await initCommitment(config);
 
     expect(Cache).toHaveBeenCalled();
   });
 
   it('creates an injector', async () => {
-    await initCmytment(config);
+    await initCommitment(config);
 
     expect(createInjector).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -75,7 +75,7 @@ describe('initCmytment', () => {
   });
 
   it('returns the initialized library api', async () => {
-    const { cache, copyCommitsToRepo, copyRepo, getCommitsForRepo } = await initCmytment(config);
+    const { cache, copyCommitsToRepo, copyRepo, getCommitsForRepo } = await initCommitment(config);
 
     expect(cache).toStrictEqual(expect.any(Cache));
     expect(copyCommitsToRepo).toStrictEqual(expect.any(Function));

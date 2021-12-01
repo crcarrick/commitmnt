@@ -29,11 +29,11 @@ The library exposes two functions to help you copy commits from your source repo
 
 ### Basic
 
-`cmytment(config, options)` is the default export of the library and is intended to be a quick and easy solution to copy commits from a list of source repos.
+`commitment(config, options)` is the basic export of the library and is intended to be a quick and easy solution to copy commits from a list of source repos.
 
 ```typescript
 // in index.js
-import cmytment from 'cmytment';
+import { commitment } from 'cmytment';
 
 async function main() {
   const config = {
@@ -53,7 +53,7 @@ async function main() {
     rootDir: process.cwd(),
   };
 
-  await cmytment(config); // done 😃
+  await commitment(config); // done 😃
 }
 
 main();
@@ -61,13 +61,13 @@ main();
 
 ### Advanced
 
-`initCmytment(config)` is a "lower level" export that takes some configuration and returns you some utilities you can use to read and copy commits from your source repos. These utilities are exposed to help you in case you want to do something a little different (eg. only copy commits that occur on weekdays).
+`initCommitment(config)` is a function that takes some configuration and returns you some utilities you can use to read and copy commits from your source repos. These utilities are exposed to help you in case you want to do something a little different (eg. only copy commits that occur on weekdays).
 
 The following is an example of combining the provided utilities to only copy commits from a source repo that occurred on weekdays.
 
 ```typescript
 // in index.js
-import { initCmytment } from 'cmytment';
+import { initCommitment } from 'cmytment';
 import { isWeekend } from 'date-fns';
 
 async function main() {
@@ -76,7 +76,7 @@ async function main() {
     rootDir: process.cwd(),
   };
 
-  const { getCommitsForRepo, copyCommitsToRepo } = await initCmytment(config);
+  const { getCommitsForRepo, copyCommitsToRepo } = await initCommitment(config);
 
   const commitDates = await getCommitsForRepo({
     author: 'Chris Carrick',
@@ -94,7 +94,7 @@ main();
 
 ### Configuration
 
-#### `cmytment(config, options)`
+#### `commitment(config, options)`
 
 ```typescript
 interface Config {
@@ -114,7 +114,7 @@ interface Repository {
 }
 ```
 
-#### `initCmytment(config)`
+#### `initCommitment(config)`
 
 ```typescript
 interface Config {
@@ -126,7 +126,7 @@ interface Config {
 ##### Example
 
 ```typescript
-// cmytment config & options
+// commitment config & options
 const config = {
   branch: 'main',
   repositories: [
@@ -146,7 +146,7 @@ const config = {
 
 const options = { quiet: true }
 
-// initCmytment config
+// initCommitment config
 const config = {
   branch: 'main',
   rootDir: process.cwd(),

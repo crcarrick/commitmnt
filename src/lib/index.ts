@@ -18,7 +18,7 @@ const defaultConfig: Config = {
 /**
  * Initialize a cache and set of functions that can be utilized to copy
  * commits from some repository to another repository.  These are the same
- * functions used under the hood of the main `cmytment()` function.  They are being
+ * functions used under the hood of the main `commitment()` function.  They are being
  * exposed here so that a user with a more specific use case
  * (eg. filtering the commits in some way before copying them) can do that if they desire.
  *
@@ -27,7 +27,7 @@ const defaultConfig: Config = {
  *
  * @category Public API
  */
-export async function initCmytment(config: Pick<Config, 'branch' | 'rootDir'>) {
+export async function initCommitment(config: Pick<Config, 'branch' | 'rootDir'>) {
   const cache = new Cache(config.rootDir);
 
   const inject = createInjector<Deps>({
@@ -55,7 +55,7 @@ export async function initCmytment(config: Pick<Config, 'branch' | 'rootDir'>) {
  *
  * @category Public API
  */
-export async function cmytment(config: Config, options?: { quiet: boolean }) {
+export async function commitment(config: Config, options?: { quiet: boolean }) {
   const cache = new Cache(config.rootDir);
 
   const inject = createInjector<Deps>({
