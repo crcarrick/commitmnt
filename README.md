@@ -167,11 +167,11 @@ const config = {
       branch: 'main',
       path: '/Users/chriscarrick/Projects/project1',
     },
-  ]
+  ],
   rootDir: process.cwd(),
 };
 
-const options = { quiet: true }
+const options = { quiet: true };
 
 // initCommitment config
 const config = {
