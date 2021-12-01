@@ -1,4 +1,5 @@
 import { Deps, Repository } from '../../types';
+import * as git from '../../utils/git';
 import { copyCommitsToRepo } from '../copy-commits-to-repo';
 import { getCommitsForRepo } from '../get-commits-for-repo';
 
@@ -22,6 +23,8 @@ export async function copyRepo(deps: Deps, repo: Repository) {
 
     return total;
   }
+
+  await git.push();
 
   return 0;
 }
