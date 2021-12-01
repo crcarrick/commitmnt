@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/crcarrick/commitmnt/compare/v1.0.0...v1.0.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* git push issue ([24217e6](https://github.com/crcarrick/commitmnt/commit/24217e67edf5a2e008406e0680714e8dbd0aac24))
+
 ## 1.0.0 (2021-12-01)
 
 
