@@ -8,11 +8,11 @@ This project is intended to be silly and fun. Please don't take it too seriously
 
 #### Old 😢
 
-![Empty Activity Graph](https://i.ibb.co/bLRmNx2/gh-activity-empty.png)
+<img alt="Empty Activity Graph" src="https://i.ibb.co/bLRmNx2/gh-activity-empty.png" width="850" height="170" />
 
 #### New 😄
 
-![Full Activity Graph](https://i.ibb.co/bLRmNx2/gh-activity-empty.png)
+<img alt="Full Activity Graph" src="https://i.ibb.co/JxWxhj2/gh-activity-full.png" width="850" height="170" />
 
 ## Installation & Setup
 
