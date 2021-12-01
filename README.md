@@ -25,19 +25,19 @@ This project is intended to be silly and fun. Please don't take it too seriously
 
 ## Installation & Setup
 
-```
+```sh
 # create a new project
-mkdir work-history
-cd work-history
+$ mkdir work-history
+$ cd work-history
 
 # initialize a fresh git repo
-git init
+$ git init
 
 # install the library
-yarn init
-yarn add commitmnt
+$ yarn init
+$ yarn add commitmnt
 
-touch index.js && code ./
+$ touch index.js && code ./
 ```
 
 ## Usage
