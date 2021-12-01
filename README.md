@@ -98,19 +98,28 @@ main();
 
 ```typescript
 interface Config {
-  repositories: Repository[]; // a list of source repos to copy from
-  branch: string; // the branch of the current repo to commit to
-  path: string; // an *absolute* path to the current directory
+  // the branch of the current repo to commit to
+  branch: string;
+  // an *absolute* path to the current directory
+  path: string;
+  // a list of source repos to copy from
+  repositories: Repository[];
 }
 
 interface Options {
-  quiet: boolean; // option to silence progress output from the library
+  // option to silence progress output from the library
+  quiet: boolean;
 }
 
 interface Repository {
-  author: string; // some identifier to identify your commits by (eg. your name or email)
-  branch: string; // the branch of the source repo to copy commits from
-  path: string; // an *absolute* path to the source repo directory
+  // some identifier to help the library match your
+  // commits by commit author such as "Chris Carrick" or "chris@crcarrick.dev"
+  // this can also be a pattern -> "\(Chris\|Christopher\) Carrick"
+  author: string;
+  // the branch of the source repo to copy commits from
+  branch: string;
+  // an *absolute* path to the source repo directory
+  path: string;
 }
 ```
 
@@ -118,8 +127,10 @@ interface Repository {
 
 ```typescript
 interface Config {
-  branch: string; // the branch of the current repo to commit to
-  path: string; // an *absolute* path to the current directory
+  // the branch of the current repo to commit to
+  branch: string;
+  // an *absolute* path to the current directory
+  path: string;
 }
 ```
 
