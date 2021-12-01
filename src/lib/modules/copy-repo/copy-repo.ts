@@ -21,10 +21,10 @@ export async function copyRepo(deps: Deps, repo: Repository) {
 
     await deps.cache.set<Repository>(repo.path, { ...repo, after: dates[dates.length - 1] });
 
+    await git.push();
+
     return total;
   }
-
-  await git.push();
 
   return 0;
 }

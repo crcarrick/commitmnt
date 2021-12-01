@@ -11,6 +11,7 @@ import { getCommits } from './helpers/get-commits';
 jest.mock('fs-extra');
 jest.mock('ora');
 jest.mock('../../utils/cache');
+jest.mock('../../utils/git');
 jest.mock('./helpers/get-commits');
 
 const mocks = {

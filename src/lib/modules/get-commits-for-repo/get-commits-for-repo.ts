@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 
 import { Deps, Repository } from '../../types';
+import git from '../../utils/git';
 
 import { getCommits } from './helpers/get-commits';
 
@@ -20,6 +21,9 @@ export async function getCommitsForRepo({ cache }: Deps, repo: Repository) {
   }
 
   process.chdir(repo.path);
+
+  await git('stash');
+  await git(`checkout ${repo.branch}`);
 
   return getCommits({ author: repo.author, after: cached?.after });
 }
