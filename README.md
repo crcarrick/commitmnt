@@ -1,8 +1,10 @@
 # Commitment (cmytment)
 
-Do you work for a company that uses Gitlab or Bitbucket? Are you worried that people are looking at your cold, barren husk of a Github activity graph and judging you? Wondering if you even still code anymore? Commitment is a node.js library that helps you copy your commit history from a list of source repositories into a new repository you can then push up to Github.
+Do you work for a company that uses Gitlab or Bitbucket? Are you worried that people are looking at your cold 🥶, barren 🌵 husk of a Github activity graph and judging you? Wondering if you even still code anymore? Commitment is a node.js library that helps you copy your commit history from a list of source repositories into a new repository you can then push up to Github.
 
-There are several projects floating around Github that will _fake_ you a commit history in a fresh repo, but that seemed bogus and so this library was born. **No data is leaked from the source repos other than the dates of your commits.** Once you copy the commits from your source repos to your new repo, you can then push the new repo up to Github and make it private (or don't!) and bingo. You now have a big green beautiful **accurate** activity graph.
+There are several projects floating around Github that will _fake_ you a commit history in a fresh repo, but that seemed bogus and so this library was born. **No data is leaked from the source repos other than the dates of your commits.** Once you copy the commits from your source repos to your new repo, you can then push the new repo up to Github and make it private (or don't!) and bingo. You now have a big green beautiful.. and most importantly **accurate** Github activity graph 📈.
+
+This project is intended to be silly and fun. Please don't take it too seriously 👋.
 
 ## Installation & Setup
 
@@ -106,7 +108,7 @@ interface Options {
 }
 
 interface Repository {
-  author: string; // some identifier to identify your commits by (eg. "Chris Carrick" or "chris@crcarrick.dev")
+  author: string; // some identifier to identify your commits by (eg. your name or email)
   branch: string; // the branch of the source repo to copy commits from
   path: string; // an *absolute* path to the source repo directory
 }
