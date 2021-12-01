@@ -9,6 +9,7 @@ import { commitment, initCommitment } from './index';
 jest.mock('ora');
 jest.mock('./modules/get-commits-and-copy');
 jest.mock('./utils/cache');
+jest.mock('./utils/cd');
 jest.mock('./utils/ioc', () => ({
   createInjector: jest.fn(() => jest.fn((fn) => jest.fn(() => fn()))),
 }));

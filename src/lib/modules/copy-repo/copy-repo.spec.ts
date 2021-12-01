@@ -3,6 +3,7 @@ import { mocked } from 'ts-jest/utils';
 
 import { Config, Deps } from '../../types';
 import { Cache } from '../../utils/cache';
+import { ChangeDirectory } from '../../utils/cd';
 import { copyCommitsToRepo } from '../copy-commits-to-repo';
 import { getCommitsForRepo } from '../get-commits-for-repo';
 
@@ -12,10 +13,12 @@ jest.mock('ora');
 jest.mock('../copy-commits-to-repo');
 jest.mock('../get-commits-for-repo');
 jest.mock('../../utils/cache');
+jest.mock('../../utils/cd');
 jest.mock('../../utils/git');
 
 const mocks = {
   cache: mocked(new Cache()),
+  cd: mocked(new ChangeDirectory()),
   copyCommitsToRepo: mocked(copyCommitsToRepo),
   getCommitsForRepo: mocked(getCommitsForRepo),
 };
@@ -28,10 +31,12 @@ const config: Config = {
   rootDir: '/foo/bar',
 };
 const cache = mocks.cache;
+const cd = mocks.cd;
 
 const deps: Deps = {
-  config,
   cache,
+  cd,
+  config,
   spinner: ora(),
 };
 

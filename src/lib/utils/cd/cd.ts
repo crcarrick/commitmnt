@@ -7,9 +7,10 @@ export class ChangeDirectory {
    * @param base the directory to start at
    * @constructor
    */
-  constructor(baseDir: string) {
-    this.go(baseDir);
-    this.ensure(baseDir);
+  constructor(baseDir?: string) {
+    const dir = baseDir ?? process.cwd();
+
+    this.go(dir);
   }
 
   /**

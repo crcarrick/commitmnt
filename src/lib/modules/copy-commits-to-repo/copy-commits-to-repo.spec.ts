@@ -2,12 +2,14 @@ import ora from 'ora';
 
 import { Config, Deps } from '../../types';
 import { Cache } from '../../utils/cache';
+import { ChangeDirectory } from '../../utils/cd';
 
 import { copyCommitsToRepo, MAX_COMMITS_PER_PUSH } from './copy-commits-to-repo';
 import { makeCommits } from './helpers/make-commits';
 
 jest.mock('ora');
 jest.mock('../../utils/cache');
+jest.mock('../../utils/cd');
 jest.mock('./helpers/make-commits');
 
 const dates = ['foo', 'bar'];
@@ -17,10 +19,12 @@ const config: Config = {
   rootDir: '/foo/bar',
 };
 const cache = new Cache();
+const cd = new ChangeDirectory();
 
 const deps: Deps = {
-  config,
   cache,
+  cd,
+  config,
   spinner: ora(),
 };
 

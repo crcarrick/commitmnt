@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Setup env variables
+          name: Setup custom environment variables
           command: echo 'export CODECOV_TOKEN="8763da5d-2ec9-4bb7-8258-1eb230173fb9"' >> $BASH_ENV
       - restore_cache:
           name: Restore Yarn Package Cache

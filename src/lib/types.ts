@@ -3,6 +3,7 @@
 import { Ora } from 'ora';
 
 import { Cache } from './utils/cache';
+import { ChangeDirectory } from './utils/cd';
 
 export interface Config {
   branch: string;
@@ -13,6 +14,7 @@ export interface Config {
 /** @internal */
 export interface Deps {
   cache: Cache;
+  cd: ChangeDirectory;
   config: Config;
   spinner: Ora;
 }

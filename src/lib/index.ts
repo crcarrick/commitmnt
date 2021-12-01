@@ -4,7 +4,7 @@ import ora from 'ora';
 
 import { copyCommitsToRepo, copyRepo, getCommitsAndCopy, getCommitsForRepo } from './modules';
 import { Config, Deps } from './types';
-import { Cache, createInjector } from './utils';
+import { Cache, ChangeDirectory, createInjector } from './utils';
 
 /**
  * Default configuration object
@@ -29,9 +29,11 @@ const defaultConfig: Config = {
  */
 export async function initCommitment(config: Pick<Config, 'branch' | 'rootDir'>) {
   const cache = new Cache(config.rootDir);
+  const cd = new ChangeDirectory(config.rootDir);
 
   const inject = createInjector<Deps>({
     cache,
+    cd,
     config: {
       ...defaultConfig,
       ...config,
@@ -57,9 +59,11 @@ export async function initCommitment(config: Pick<Config, 'branch' | 'rootDir'>)
  */
 export async function commitment(config: Config, options?: { quiet: boolean }) {
   const cache = new Cache(config.rootDir);
+  const cd = new ChangeDirectory(config.rootDir);
 
   const inject = createInjector<Deps>({
     cache,
+    cd,
     config: {
       ...defaultConfig,
       ...config,

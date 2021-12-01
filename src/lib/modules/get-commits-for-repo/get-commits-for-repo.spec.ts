@@ -4,6 +4,7 @@ import { mocked } from 'ts-jest/utils';
 
 import { Config, Deps, Repository } from '../../types';
 import { Cache } from '../../utils/cache';
+import { ChangeDirectory } from '../../utils/cd';
 
 import { getCommitsForRepo } from './get-commits-for-repo';
 import { getCommits } from './helpers/get-commits';
@@ -11,6 +12,7 @@ import { getCommits } from './helpers/get-commits';
 jest.mock('fs-extra');
 jest.mock('ora');
 jest.mock('../../utils/cache');
+jest.mock('../../utils/cd');
 jest.mock('../../utils/git');
 jest.mock('./helpers/get-commits');
 
@@ -24,10 +26,12 @@ const config: Config = {
   rootDir: '/foo/bar',
 };
 const cache = new Cache();
+const cd = new ChangeDirectory();
 
 const deps: Deps = {
-  config,
   cache,
+  cd,
+  config,
   spinner: ora(),
 };
 const repo: Repository = {
