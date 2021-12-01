@@ -65,7 +65,7 @@ async function main() {
         branch: 'main',
         path: '/Users/chriscarrick/Projects/project1',
       },
-    ]
+    ],
     rootDir: process.cwd(),
   };
 
