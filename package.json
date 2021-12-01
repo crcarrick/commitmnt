@@ -1,18 +1,20 @@
 {
-  "name": "cmytment",
+  "name": "commitmnt",
   "version": "1.0.0",
-  "description": "Copy your gitlab and bitbucket commits to a new, publishable repository on github",
+  "description": "Copy your gitlab and bitbucket commits to a new, publishable github repo",
   "main": "dist/main/index.js",
   "typings": "dist/main/index.d.ts",
   "module": "dist/module/index.js",
-  "repository": "https://github.com/crcarrick/cmytment",
+  "repository": "https://github.com/crcarrick/commitmnt",
   "license": "MIT",
   "keywords": [
     "github",
     "gitlab",
     "bitbucket",
     "commit",
+    "commitment",
     "repository",
+    "repo",
     "copy"
   ],
   "scripts": {

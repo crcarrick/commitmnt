@@ -1,4 +1,4 @@
-# Commitment (cmytment)
+# Commitment (commitmnt)
 
 Do you work for a company that uses Gitlab or Bitbucket? Are you worried that people are looking at your cold 🥶, barren 🌵 husk of a Github activity graph and judging you? Wondering if you even still code anymore? Commitment is a node.js library that helps you copy your commit history from a list of source repositories into a new repository you can then push up to Github.
 
@@ -6,13 +6,11 @@ There are several projects floating around Github that will _fake_ you a commit 
 
 This project is intended to be silly and fun. Please don't take it too seriously 👋.
 
-## Serious Before & After Photos
-
-#### Before 😢
+#### Old 😢
 
 ![Empty Activity Graph](https://i.ibb.co/bLRmNx2/gh-activity-empty.png)
 
-#### After &nbsp;&nbsp;😄
+#### New 😄
 
 ![Full Activity Graph](https://i.ibb.co/bLRmNx2/gh-activity-empty.png)
 
@@ -28,7 +26,7 @@ git init
 
 # install the library
 yarn init
-yarn add cmytment
+yarn add commitmnt
 
 touch index.js && code ./
 ```
@@ -43,7 +41,7 @@ The library exposes two functions to help you copy commits from your source repo
 
 ```typescript
 // in index.js
-import { commitment } from 'cmytment';
+import { commitment } from 'commitmnt';
 
 async function main() {
   const config = {
@@ -77,7 +75,7 @@ The following is an example of combining the provided utilities to only copy com
 
 ```typescript
 // in index.js
-import { initCommitment } from 'cmytment';
+import { initCommitment } from 'commitmnt';
 import { isWeekend } from 'date-fns';
 
 async function main() {
