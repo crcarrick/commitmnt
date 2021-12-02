@@ -1,0 +1,16 @@
+{
+  "git": {
+    "commitMessage": "chore(release): ${version}",
+    "tagAnnotation": "v${version}"
+  },
+  "hooks": {
+    "before:init": "yarn prepare-release",
+    "after:bump": ["yarn doc:gen", "yarn build"]
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "conventionalcommits",
+      "infile": "CHANGELOG.md"
+    }
+  }
+}
