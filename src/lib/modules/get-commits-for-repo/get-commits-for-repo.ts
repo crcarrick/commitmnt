@@ -25,7 +25,9 @@ export async function getCommitsForRepo({ cache, cd, config }: Deps, repo: Repos
   await git('stash');
   await git(`checkout ${repo.branch}`);
 
+  const commits = await getCommits({ author: repo.author, after: cached?.after });
+
   cd.go(config.rootDir);
 
-  return getCommits({ author: repo.author, after: cached?.after });
+  return commits;
 }

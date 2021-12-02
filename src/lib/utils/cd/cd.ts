@@ -3,7 +3,6 @@ export class ChangeDirectory {
   last: string;
 
   /**
-   *
    * @param base the directory to start at
    * @constructor
    */
