@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/crcarrick/commitmnt/compare/v1.1.1...v1.1.2) (2021-12-02)
+
+
+### Bug Fixes
+
+* actually commit the cd.go changes ([0ef81f2](https://github.com/crcarrick/commitmnt/commit/0ef81f2bde08008c9ea5093b1a8831440b5b0d32))
+
 ### [1.1.1](https://github.com/crcarrick/commitmnt/compare/v1.1.0...v1.1.1) (2021-12-02)
 
 ## [1.1.0](https://github.com/crcarrick/commitmnt/compare/v1.0.3...v1.1.0) (2021-12-02)
