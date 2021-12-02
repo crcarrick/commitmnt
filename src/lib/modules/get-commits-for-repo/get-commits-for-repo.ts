@@ -13,17 +13,19 @@ import { getCommits } from './helpers/get-commits';
  *
  * @category Public API Module
  */
-export async function getCommitsForRepo({ cache }: Deps, repo: Repository) {
+export async function getCommitsForRepo({ cache, cd, config }: Deps, repo: Repository) {
   const cached = await cache.get<Repository>(repo.path);
 
   if (!repo || !fs.existsSync(repo.path)) {
     throw new Error(`Couldn't find repository at path ${repo.path}`);
   }
 
-  process.chdir(repo.path);
+  cd.go(repo.path);
 
   await git('stash');
   await git(`checkout ${repo.branch}`);
+
+  cd.go(config.rootDir);
 
   return getCommits({ author: repo.author, after: cached?.after });
 }

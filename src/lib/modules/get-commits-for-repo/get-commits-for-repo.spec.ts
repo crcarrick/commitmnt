@@ -70,7 +70,7 @@ it(`throws if the repo or repo path don't exist`, async () => {
 it('changes directory to the repo directory', async () => {
   await getCommitsForRepo(deps, repo);
 
-  expect(process.chdir).toHaveBeenCalledWith(repo.path);
+  expect(cd.go).toHaveBeenCalledWith(repo.path);
 });
 
 it('gets the commits', async () => {

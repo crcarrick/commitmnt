@@ -39,7 +39,7 @@ afterEach(() => {
 it('changes directory to the root dir', async () => {
   await copyCommitsToRepo(deps, dates);
 
-  expect(process.chdir).toHaveBeenCalledWith(config.rootDir);
+  expect(cd.go).toHaveBeenCalledWith(config.rootDir);
 });
 
 it('makes the commits', async () => {
