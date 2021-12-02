@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/crcarrick/commitmnt/compare/v1.0.3...v1.1.0) (2021-12-02)
+
+
+### Features
+
+* add `ChangeDirectory` to dep injection ([9ec9f94](https://github.com/crcarrick/commitmnt/commit/9ec9f947458f65854af9d141958285d63ff6c69b))
+* add `ChangeDirectory` utility class ([d9a1769](https://github.com/crcarrick/commitmnt/commit/d9a1769ed71de9cd483d188bf6d4e75a3784a7ab))
+
+
+### Bug Fixes
+
+* ensure cache updates are committed & pushed ([a1e4be7](https://github.com/crcarrick/commitmnt/commit/a1e4be7f4b6e4a04b2805391a0c6c94d81fab22c))
+
 ### [1.0.3](https://github.com/crcarrick/commitmnt/compare/v1.0.2...v1.0.3) (2021-12-01)
 
 ### [1.0.2](https://github.com/crcarrick/commitmnt/compare/v1.0.1...v1.0.2) (2021-12-01)
